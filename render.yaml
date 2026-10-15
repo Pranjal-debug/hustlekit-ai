@@ -1,0 +1,32 @@
+# Render Blueprint for HustleKit AI
+# https://render.com/docs/blueprint-spec
+# Note: Sensitive credentials must NOT be committed. Secrets use sync: false.
+
+services:
+  - type: web
+    name: hustlekit-ai
+    runtime: node
+    plan: free
+    buildCommand: npm run install:all && npm run build
+    startCommand: npm start
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGODB_DB_NAME
+        value: hustlekit_ai
+      - key: MONGODB_URI
+        sync: false
+      - key: GEMMA_API_KEY
+        sync: false
+      - key: GEMMA_API_BASE_URL
+        value: https://openrouter.ai/api/v1
+      - key: GEMMA_MODEL
+        value: google/gemma-3-12b-it
+      - key: ENABLE_MOCK_FALLBACK
+        value: "false"
+      - key: CLIENT_URL
+        sync: false
