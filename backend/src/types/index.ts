@@ -148,6 +148,25 @@ export interface SalesRecord {
   createdAt: string;
 }
 
+export interface SalesHashInput {
+  orderId?: string;
+  productName: string;
+  date: string;
+  quantity: number;
+  unitPrice: number;
+}
+
+export interface SalesRecordInput {
+  orderId?: string;
+  productName: string;
+  productId?: string;
+  date: string;
+  quantity: number;
+  unitPrice: number;
+  revenue?: number;
+  channel?: string;
+}
+
 export interface SalesImportRowValidation {
   rowNumber: number;
   valid: boolean;

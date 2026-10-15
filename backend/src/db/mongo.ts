@@ -2,6 +2,8 @@ import { MongoClient, Db } from 'mongodb';
 import crypto from 'crypto';
 import {
   SalesRecord,
+  SalesHashInput,
+  SalesRecordInput,
   ProductItem,
   ContentGenerationResponse,
   SalesImportSummary,
@@ -264,13 +266,7 @@ export const assertDatabaseReady = (operation?: string): void => {
  */
 export const computeRecordHash = (
   workspaceId: string,
-  record: {
-    orderId?: string;
-    productName: string;
-    date: string;
-    quantity: number;
-    unitPrice: number;
-  }
+  record: SalesHashInput
 ): string => {
   const seed = `${workspaceId}|${(record.orderId || '').trim().toLowerCase()}|${record.date.trim()}|${record.productName.trim().toLowerCase()}|${record.quantity}|${record.unitPrice.toFixed(2)}`;
   return crypto.createHash('sha256').update(seed).digest('hex');
@@ -281,7 +277,7 @@ export const computeRecordHash = (
  */
 export const insertSalesRecords = async (
   workspaceId: string,
-  records: Omit<SalesRecord, 'id' | 'workspaceId' | 'recordHash' | 'createdAt'>[]
+  records: SalesRecordInput[]
 ): Promise<SalesImportSummary> => {
   assertDatabaseReady();
   let insertedCount = 0;
