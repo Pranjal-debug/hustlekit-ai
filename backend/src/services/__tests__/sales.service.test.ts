@@ -56,6 +56,86 @@ not-a-date,Bad Date Product,1,20.00
     assert.ok(result.errors.some((e) => e.row === 6 && e.error.includes('product name')));
   });
 
+  it('supports original "quantity" header and parses correctly', () => {
+    const csv = `date,product_name,quantity,unit_price\n2026-10-01,Desk Mat,5,20.00`;
+    const result = parseAndValidateSalesCsv(csv);
+    assert.equal(result.validRows.length, 1);
+    assert.equal(result.validRows[0].quantity, 5);
+    assert.equal(result.validRows[0].revenue, 100.00);
+  });
+
+  it('supports "units_sold" alias and calculates revenue correctly', () => {
+    const csv = `date,product_name,units_sold,unit_price\n2026-10-01,Desk Mat,4,25.00`;
+    const result = parseAndValidateSalesCsv(csv);
+    assert.equal(result.errors.length, 0);
+    assert.equal(result.validRows.length, 1);
+    assert.equal(result.validRows[0].quantity, 4);
+    assert.equal(result.validRows[0].revenue, 100.00);
+  });
+
+  it('supports "units sold" alias and calculates revenue correctly', () => {
+    const csv = `date,product_name,units sold,unit_price\n2026-10-01,Desk Mat,3,30.00`;
+    const result = parseAndValidateSalesCsv(csv);
+    assert.equal(result.errors.length, 0);
+    assert.equal(result.validRows.length, 1);
+    assert.equal(result.validRows[0].quantity, 3);
+    assert.equal(result.validRows[0].revenue, 90.00);
+  });
+
+  it('supports "items_sold", "item_qty", and "line_item_quantity" aliases', () => {
+    const csv1 = `date,product_name,items_sold,unit_price\n2026-10-01,Item A,2,10.00`;
+    const csv2 = `date,product_name,item_qty,unit_price\n2026-10-01,Item B,6,5.00`;
+    const csv3 = `date,product_name,line_item_quantity,unit_price\n2026-10-01,Item C,1,50.00`;
+
+    const r1 = parseAndValidateSalesCsv(csv1);
+    const r2 = parseAndValidateSalesCsv(csv2);
+    const r3 = parseAndValidateSalesCsv(csv3);
+
+    assert.equal(r1.validRows[0].quantity, 2);
+    assert.equal(r2.validRows[0].quantity, 6);
+    assert.equal(r3.validRows[0].quantity, 1);
+  });
+
+  it('handles header case and surrounding whitespace in aliases', () => {
+    const csv = `  DATE  , " Product Name " ,  "  UNITS SOLD  " , "Unit_Price"\n2026-10-01,Desk Mat,10,15.00`;
+    const result = parseAndValidateSalesCsv(csv);
+    assert.equal(result.errors.length, 0);
+    assert.equal(result.validRows.length, 1);
+    assert.equal(result.validRows[0].productName, 'Desk Mat');
+    assert.equal(result.validRows[0].quantity, 10);
+    assert.equal(result.validRows[0].revenue, 150.00);
+  });
+
+  it('still rejects invalid or missing quantity values under new aliases', () => {
+    const csv = `date,product_name,units_sold,unit_price
+2026-10-01,Desk Mat,not-a-number,20.00
+2026-10-02,Desk Mat,-3,20.00
+2026-10-03,Desk Mat,0,20.00
+2026-10-04,Valid Item,5,20.00`;
+
+    const result = parseAndValidateSalesCsv(csv);
+    assert.equal(result.validRows.length, 1);
+    assert.equal(result.errors.length, 3);
+    assert.ok(result.errors.some((e) => e.row === 2 && e.error.includes('Quantity must be a positive integer')));
+    assert.ok(result.errors.some((e) => e.row === 3 && e.error.includes('Quantity must be a positive integer')));
+    assert.ok(result.errors.some((e) => e.row === 4 && e.error.includes('Quantity must be a positive integer')));
+  });
+
+  it('preserves deduplication and revenue calculation when importing with new aliases', () => {
+    const csvA = `order_id,date,product_name,quantity,unit_price\nORD-1,2026-10-01,Lamp,2,50.00`;
+    const csvB = `order_id,date,product_name,units_sold,unit_price\nORD-1,2026-10-01,Lamp,2,50.00`;
+
+    const parsedA = parseAndValidateSalesCsv(csvA);
+    const parsedB = parseAndValidateSalesCsv(csvB);
+
+    assert.equal(parsedA.validRows[0].revenue, 100.00);
+    assert.equal(parsedB.validRows[0].revenue, 100.00);
+
+    const hashA = computeRecordHash('default', parsedA.validRows[0]);
+    const hashB = computeRecordHash('default', parsedB.validRows[0]);
+    assert.equal(hashA, hashB, 'Hashes must be identical regardless of whether quantity or units_sold was the header');
+  });
+
   it('computes deterministic hashes for deduplication', () => {
     const row1 = {
       orderId: 'ORD-101',

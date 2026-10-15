@@ -70,27 +70,48 @@ export const parseAndValidateSalesCsv = (csvText: string): CsvParseResult => {
     .split(',')
     .map((h) => h.replace(/^["']|["']$/g, '').trim().toLowerCase());
 
+  // Normalization helper that matches raw lowercase trimmed header as well as space/hyphen/underscore equivalence
+  const matchesAlias = (header: string, aliases: string[]): boolean => {
+    const raw = header.replace(/^["']|["']$/g, '').trim().toLowerCase();
+    const normalized = raw.replace(/[\s-]+/g, '_');
+    return aliases.some((alias) => {
+      const aRaw = alias.toLowerCase().trim();
+      const aNorm = aRaw.replace(/[\s-]+/g, '_');
+      return raw === aRaw || normalized === aNorm;
+    });
+  };
+
   // Find index mappings
   const orderIdIdx = rawHeaders.findIndex((h) =>
-    ['order_id', 'orderid', 'order', 'transaction_id', 'id'].includes(h)
+    matchesAlias(h, ['order_id', 'orderid', 'order', 'transaction_id', 'id'])
   );
   const productIdx = rawHeaders.findIndex((h) =>
-    ['product_name', 'product', 'item', 'title', 'name'].includes(h)
+    matchesAlias(h, ['product_name', 'product', 'item', 'title', 'name'])
   );
   const productIdIdx = rawHeaders.findIndex((h) =>
-    ['product_id', 'sku', 'item_id'].includes(h)
+    matchesAlias(h, ['product_id', 'sku', 'item_id'])
   );
   const dateIdx = rawHeaders.findIndex((h) =>
-    ['date', 'order_date', 'timestamp', 'created_at'].includes(h)
+    matchesAlias(h, ['date', 'order_date', 'timestamp', 'created_at'])
   );
   const qtyIdx = rawHeaders.findIndex((h) =>
-    ['quantity', 'qty', 'count', 'units'].includes(h)
+    matchesAlias(h, [
+      'quantity',
+      'qty',
+      'count',
+      'units',
+      'units_sold',
+      'units sold',
+      'items_sold',
+      'item_qty',
+      'line_item_quantity',
+    ])
   );
   const priceIdx = rawHeaders.findIndex((h) =>
-    ['unit_price', 'price', 'unit_cost', 'cost', 'amount', 'revenue'].includes(h)
+    matchesAlias(h, ['unit_price', 'price', 'unit_cost', 'cost', 'amount', 'revenue'])
   );
   const channelIdx = rawHeaders.findIndex((h) =>
-    ['channel', 'sales_channel', 'platform', 'source'].includes(h)
+    matchesAlias(h, ['channel', 'sales_channel', 'platform', 'source'])
   );
 
   const missingColumns: string[] = [];
