@@ -96,11 +96,11 @@ PORT=5000
 NODE_ENV=development
 CLIENT_URL=http://localhost:5173
 
-# Gemma 2 Model Provider Configuration (OpenAI-compatible)
-# Supported providers: OpenRouter (https://openrouter.ai), Groq, Together AI, or local Ollama
+# Gemma 3 Model Provider Configuration (OpenAI-compatible)
+# Recommended providers: OpenRouter (https://openrouter.ai), Groq, or local Ollama
 GEMMA_API_KEY=your_api_key_here
 GEMMA_API_BASE_URL=https://openrouter.ai/api/v1
-GEMMA_MODEL=google/gemma-2-9b-it
+GEMMA_MODEL=google/gemma-3-12b-it
 
 # Execution Controls
 # Set to 'false' to enforce real inference (returns clear error when key is missing)
@@ -109,10 +109,15 @@ ENABLE_MOCK_FALLBACK=false
 
 GEMMA_TIMEOUT_MS=15000
 GEMMA_MAX_TOKENS=800
+
+# MongoDB Atlas Persistence
+MONGODB_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/?retryWrites=true&w=majority
+MONGODB_DB_NAME=hustlekit_ai
 ```
 
 #### Frontend (`frontend/.env`)
 ```env
+# Optional in single-service mode (defaults to relative /api in production)
 VITE_API_URL=http://localhost:5000/api
 VITE_APP_ENV=development
 ```
@@ -145,14 +150,16 @@ Alternatively, run each service independently in separate terminal windows:
 
 ### 4. Running Verification Checks & Builds
 
-To verify code correctness, type-safety, and production build viability:
+To verify code correctness, type-safety, test suites, and production build viability:
 ```bash
-# Build both services
+# Run all automated backend tests (36 passing tests across 6 suites)
+npm test --prefix backend
+
+# Build both services for production
 npm run build
 
-# Or individually:
-npm run build:backend
-npm run build:frontend
+# Start the unified production service
+npm start
 ```
 
 ---
@@ -161,11 +168,18 @@ npm run build:frontend
 
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
-| `GET` | `/api/health` | Service health status, uptime, version, and AI engine status |
-| `GET` | `/api/products` | Retrieve store inventory and demo products |
-| `POST` | `/api/products` | Add a new product to inventory |
+| `GET` | `/healthz` | Lightweight load-balancer health probe (returns 200 `{ status: "alive" }`) |
+| `GET` | `/api/health` | Comprehensive telemetry: service, database connection status, Gemma provider, Mastra status |
+| `GET` | `/api/products` | Retrieve store inventory and product records |
+| `POST` | `/api/products` | Add a new product to store inventory |
 | `GET` | `/api/insights` | Retrieve sales telemetry, chart history, forecast, and recommendations |
-| `POST` | `/api/generate` | Generate marketing copy, SEO tags, or customer replies |
+| `POST` | `/api/sales/import` | Validate and import sales orders from CSV with deterministic deduplication |
+| `POST` | `/api/sales/clear` | Clear imported sales records and return to baseline simulation mode |
+| `GET` | `/api/sales/sample` | Download sample CSV template |
+| `POST` | `/api/generate` | Generate marketing copy, SEO tags, or customer replies using Gemma 3 12B |
+| `POST` | `/api/advisor/generate` | Trigger the 4-step Mastra Sales Growth Advisor workflow |
+| `GET` | `/api/advisor/latest` | Retrieve the latest persisted Growth Advisor report |
+| `GET` | `/api/advisor/history` | Retrieve historical advisor analysis reports |
 | `GET` | `/api/settings` | Retrieve store configuration |
 | `PUT` | `/api/settings` | Update store configuration |
 
