@@ -3,31 +3,69 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
-  --cinema-bg: #03111F;
-  --cinema-surface: #061A2B;
-  --cinema-card: #092137;
-  --cinema-border: #12364B;
-  --cinema-text: #F1F7FC;
-  --cinema-secondary: #9BB4C9;
-  --cinema-muted: #6F8BA3;
-  --cinema-emerald: #00E0B0;
-  --cinema-cyan: #00C9F2;
-  --cinema-violet: #A855F7;
+  color-scheme: light;
+  --cinema-bg: #FBF9F5;
+  --cinema-surface: #FFFFFF;
+  --cinema-card: #FFFFFF;
+  --cinema-border: #E5E0D8;
+  --cinema-text: #0A0A0A;
+  --cinema-secondary: #57534E;
+  --cinema-muted: #78716C;
+  --cinema-emerald: #0A0A0A;
+  --cinema-cyan: #57534E;
+  --cinema-violet: #78716C;
+
+  /* Editorial Commerce Design Foundation Tokens */
+  --color-ivory-50: #FBF9F5;
+  --color-ivory-100: #F5F1EA;
+  --color-ivory-200: #EBE5DB;
+  --color-ink-950: #0A0A0A;
+  --color-ink-800: #1C1917;
+  --color-ink-600: #57534E;
+  --color-lime-accent: #D4FF00;
+  --color-lime-hover: #C5EE00;
+  --color-lime-dark: #A8D100;
+  --color-border-ivory: #E5E0D8;
+  --color-border-dark: #171717;
+
+  /* Typography Stacks */
+  --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
 }
 
 body {
   margin: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  background-color: #03111F;
-  color: #F1F7FC;
+  font-family: var(--font-sans);
+  background-color: #FBF9F5;
+  color: #0A0A0A;
   overflow-x: hidden;
 }
 
 /* Accessible focus rings for keyboard navigation */
 :focus-visible {
-  outline: 2px solid #00E0B0;
+  outline: 2px solid #0A0A0A;
   outline-offset: 2px;
+}
+
+/* Editorial Typography & Tone Utilities */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-editorial-body {
+  font-family: var(--font-sans);
+}
+
+.font-editorial-mono {
+  font-family: var(--font-mono);
+}
+
+/* Ensure acid-lime elements strictly enforce high-contrast dark text */
+.bg-lime-accent,
+.bg-\[\#D4FF00\],
+[data-theme="lime-accent"] {
+  color: var(--color-ink-950) !important;
 }
 
 /* Custom scrollbar for sleek modern look */
@@ -36,27 +74,27 @@ body {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #03111F;
+  background: #FBF9F5;
 }
 ::-webkit-scrollbar-thumb {
-  background: #12364B;
+  background: #E5E0D8;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #1B4E6B;
+  background: #D5CFCE;
 }
 
 /* Glass panel and card aesthetics matching reference */
 .glass-panel {
-  background: rgba(6, 26, 43, 0.85);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid #12364B;
+  border: 1px solid #E5E0D8;
 }
 
 .glass-card {
-  background: #061A2B;
-  border: 1px solid #12364B;
+  background: #FFFFFF;
+  border: 1px solid #E5E0D8;
 }
 
 .glass-card-hover {

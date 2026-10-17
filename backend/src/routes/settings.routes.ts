@@ -7,7 +7,7 @@ export const settingsRouter = Router();
 
 const defaultSettings: StoreSettings = {
   storeName: 'AeroCraft Solo Commerce',
-  sellerName: 'Alex Rivera',
+  sellerName: 'Pranjal Gupta',
   currency: 'USD ($)',
   defaultTone: 'persuasive',
   targetMarket: 'Remote professionals, designers, and EDC enthusiasts',

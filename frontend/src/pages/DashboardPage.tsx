@@ -117,52 +117,55 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   // Genuine products list from actual API / database
   const inventoryList = products.slice(0, 5);
 
+  // Safe formatted current date for editorial header
+  const formattedDate = new Date().toLocaleDateString('en-US', {
+    weekday: 'long',
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+
   return (
     <div className="space-y-6 pb-12">
       {/* 1. Welcome Hero Banner */}
-      <div className="relative overflow-hidden rounded-2xl bg-[#061A2B] border border-[#12364B] p-6 lg:p-7 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-        {/* Background Ambient Glow */}
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#00C9F2]/10 rounded-full blur-3xl pointer-events-none" />
-
+      <section
+        aria-label="Dashboard Overview"
+        className="relative overflow-hidden rounded-2xl bg-[#FBF9F5] border border-[#171717] p-6 sm:p-7 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-sm"
+      >
         <div className="relative z-10 max-w-xl">
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#F1F7FC] tracking-tight font-sans">
-            Welcome back, <span className="text-[#00E0B0]">{founderName}</span>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-[11px] font-mono uppercase tracking-wider text-[#57534E] font-semibold">
+              {formattedDate}
+            </span>
+            <span className="text-[#E5E0D8]">•</span>
+            <span className="text-[11px] font-semibold text-[#0A0A0A] bg-[#F5F1EA] px-2 py-0.5 rounded border border-[#E5E0D8]">
+              {settings?.storeName || 'Solo Venture'}
+            </span>
+          </div>
+
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0A0A0A] tracking-tight font-display">
+            Welcome back, <span className="underline decoration-[#D4FF00] decoration-4 underline-offset-4">{founderName}</span>
           </h1>
-          <p className="mt-1.5 text-xs sm:text-sm text-[#9BB4C9]">
+
+          <p className="mt-2 text-xs sm:text-sm text-[#57534E] leading-relaxed">
             {isRealData
-              ? `Displaying verified store telemetry (${insights?.importedRecordsCount || 0} imported sales records).`
-              : 'Here is what is happening with your business telemetry today.'}
+              ? `Displaying verified store telemetry across ${insights?.importedRecordsCount || 0} imported transaction records.`
+              : 'Real-time commerce telemetry, inventory performance, and AI-powered growth velocity.'}
           </p>
         </div>
 
-        {/* Right Graphic: Flowing wave ribbon with quote badge */}
-        <div className="relative z-10 flex items-center gap-4 w-full md:w-auto justify-end">
-          <div className="hidden lg:block w-56 h-14 overflow-hidden relative opacity-70">
-            <svg viewBox="0 0 240 60" fill="none" className="w-full h-full animate-wave-slow">
-              <path
-                d="M 0 35 C 40 10, 80 50, 140 25 C 180 5, 210 40, 240 20"
-                stroke="#00C9F2"
-                strokeWidth="1.5"
-              />
-              <path
-                d="M 0 45 C 50 15, 90 55, 150 30 C 190 10, 220 45, 240 25"
-                stroke="#00E0B0"
-                strokeWidth="1"
-              />
-            </svg>
-          </div>
-
-          <div className="flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-[#092137]/80 border border-[#12364B] text-right">
-            <Sparkles className="w-4 h-4 text-[#00E0B0] shrink-0" />
-            <div>
-              <p className="text-[11px] font-semibold text-[#F1F7FC] leading-snug">
-                "Better data. Smarter decisions."
-              </p>
-              <p className="text-[10px] text-[#00C9F2] font-medium">Bigger growth.</p>
-            </div>
-          </div>
+        {/* Right CTA & Insight Briefing */}
+        <div className="relative z-10 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto shrink-0">
+          <button
+            onClick={() => onNavigate('advisor')}
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#D4FF00] hover:bg-[#C5EE00] text-[#0A0A0A] text-xs sm:text-sm font-bold border border-[#171717] shadow-sm transition-all active:scale-95 group"
+          >
+            <Sparkles className="w-4 h-4 text-[#0A0A0A] fill-[#0A0A0A]" />
+            <span>Run Advisor</span>
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+          </button>
         </div>
-      </div>
+      </section>
 
       {/* 2. Four Genuine KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -236,19 +239,19 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       {/* 3. Middle Grid: Sales & Revenue Velocity + AI Copywriter Studio Card */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Sales & Revenue Velocity Chart Card (2 cols) */}
-        <div className="lg:col-span-2 rounded-2xl p-6 bg-[#061A2B] border border-[#12364B] relative overflow-hidden flex flex-col justify-between">
+        <div className="lg:col-span-2 rounded-2xl p-6 bg-[#FFFFFF] border border-[#E5E0D8] shadow-sm relative overflow-hidden flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between pb-3 border-b border-[#12364B]/60 mb-3">
+            <div className="flex items-center justify-between pb-3 border-b border-[#E5E0D8] mb-3">
               <div className="flex items-center gap-2">
-                <TrendingUp className="w-4 h-4 text-[#00E0B0]" />
-                <h2 className="text-sm sm:text-base font-bold text-[#F1F7FC] font-sans">
+                <TrendingUp className="w-4 h-4 text-[#0A0A0A]" />
+                <h2 className="text-sm sm:text-base font-bold text-[#0A0A0A] font-sans">
                   Sales &amp; Revenue Velocity
                 </h2>
               </div>
 
               <button
                 onClick={() => onNavigate('insights')}
-                className="text-xs text-[#00C9F2] hover:text-[#00E0B0] flex items-center gap-1 transition-colors"
+                className="text-xs text-[#57534E] hover:text-[#0A0A0A] flex items-center gap-1 transition-colors font-medium"
               >
                 <span>Detailed Breakdown</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -265,36 +268,34 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
         </div>
 
         {/* AI Copywriter Studio Feature Card (1 col) */}
-        <div className="rounded-2xl p-6 bg-gradient-to-br from-[#061A2B] via-[#092137] to-[#061A2B] border border-[#12364B] relative overflow-hidden flex flex-col justify-between">
-          <div className="absolute top-0 right-0 w-44 h-44 bg-[#00C9F2]/10 rounded-full blur-3xl pointer-events-none" />
-
+        <div className="rounded-2xl p-6 bg-[#FBF9F5] border border-[#E5E0D8] shadow-sm relative overflow-hidden flex flex-col justify-between">
           <div>
             {/* Top Badges */}
             <div className="flex items-center justify-between gap-2 mb-3">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#00E0B0]/10 border border-[#00E0B0]/20 text-[#00E0B0] text-[11px] font-semibold">
-                <Sparkles className="w-3 h-3 fill-[#00E0B0]" />
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#F5F1EA] border border-[#E5E0D8] text-[#0A0A0A] text-[11px] font-semibold">
+                <Sparkles className="w-3 h-3 text-[#0A0A0A] fill-[#0A0A0A]" />
                 <span>AI Copywriter Studio</span>
               </div>
 
-              <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#00E0B0]/10 border border-[#00E0B0]/30 text-[10px] text-[#00E0B0] font-medium">
+              <div className="flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#D4FF00] border border-[#171717] text-[10px] text-[#0A0A0A] font-bold">
                 <span>Gemma 3 12B</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-[#00E0B0] animate-pulse" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#0A0A0A] animate-pulse" />
               </div>
             </div>
 
-            <h3 className="text-lg sm:text-xl font-bold text-[#F1F7FC] tracking-tight leading-snug font-sans">
+            <h3 className="text-lg sm:text-xl font-bold text-[#0A0A0A] tracking-tight leading-snug font-display">
               Create high-converting product content with AI
             </h3>
 
-            <p className="mt-2 text-xs text-[#9BB4C9] leading-relaxed">
+            <p className="mt-2 text-xs text-[#57534E] leading-relaxed">
               Turn your product specifications into persuasive product descriptions, SEO tags, and launch posts.
             </p>
           </div>
 
-          <div className="mt-4 flex items-center justify-between gap-2">
+          <div className="mt-5 flex items-center justify-between gap-2">
             <button
               onClick={() => onNavigate('studio')}
-              className="btn-shimmer inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#00E0B0] to-[#00C9F2] hover:opacity-95 text-[#03111F] text-xs font-bold shadow-lg shadow-[#00E0B0]/25 active:scale-95 transition-all"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#D4FF00] hover:bg-[#C5EE00] text-[#0A0A0A] text-xs font-bold border border-[#171717] shadow-sm active:scale-95 transition-all"
             >
               <span>Generate Copy</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -308,27 +309,27 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       {/* 4. Bottom Grid: Real Store Inventory Table + Genuine Recent Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Store Inventory Table (2 cols) */}
-        <div className="lg:col-span-2 rounded-2xl p-6 bg-[#061A2B] border border-[#12364B]">
-          <div className="flex items-center justify-between pb-4 border-b border-[#12364B]/60">
+        <div className="lg:col-span-2 rounded-2xl p-6 bg-[#FFFFFF] border border-[#E5E0D8] shadow-sm">
+          <div className="flex items-center justify-between pb-4 border-b border-[#E5E0D8]">
             <div className="flex items-center gap-2.5">
-              <Store className="w-4 h-4 text-[#00E0B0]" />
-              <h2 className="text-sm sm:text-base font-bold text-[#F1F7FC] font-sans">
+              <Store className="w-4 h-4 text-[#0A0A0A]" />
+              <h2 className="text-sm sm:text-base font-bold text-[#0A0A0A] font-sans">
                 Store Inventory
               </h2>
-              <span className="text-[11px] text-[#6F8BA3]">({products.length} registered items)</span>
+              <span className="text-[11px] font-medium text-[#57534E]">({products.length} registered items)</span>
             </div>
 
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setShowAddModal(true)}
-                className="inline-flex items-center gap-1 text-xs text-[#00E0B0] hover:text-[#00C9F2] transition-colors"
+                className="inline-flex items-center gap-1 text-xs font-bold text-[#0A0A0A] hover:text-[#57534E] transition-colors bg-[#F5F1EA] px-2.5 py-1 rounded-lg border border-[#E5E0D8]"
               >
-                <Plus className="w-3.5 h-3.5" />
+                <Plus className="w-3.5 h-3.5 text-[#0A0A0A]" />
                 <span>Add Item</span>
               </button>
               <button
                 onClick={() => onNavigate('studio')}
-                className="text-xs text-[#6F8BA3] hover:text-[#F1F7FC] transition-colors flex items-center gap-1"
+                className="text-xs font-semibold text-[#57534E] hover:text-[#0A0A0A] transition-colors flex items-center gap-1"
               >
                 <span>View All</span>
                 <Maximize2 className="w-3 h-3 ml-0.5" />
@@ -338,63 +339,63 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
           {/* Table */}
           {inventoryList.length === 0 ? (
-            <div className="py-12 text-center text-[#6F8BA3]">
-              <Package className="w-8 h-8 mx-auto mb-2 opacity-50" />
-              <p className="text-xs font-semibold text-[#F1F7FC]">No inventory registered</p>
-              <p className="text-[11px] text-[#6F8BA3] mt-1">Click "+ Add Item" above to add your first product.</p>
+            <div className="py-12 text-center text-[#57534E]">
+              <Package className="w-8 h-8 mx-auto mb-2 text-[#78716C]" />
+              <p className="text-xs font-bold text-[#0A0A0A]">No inventory registered</p>
+              <p className="text-[11px] text-[#57534E] mt-1">Click "+ Add Item" above to add your first product.</p>
             </div>
           ) : (
             <div className="mt-3 overflow-x-auto">
-              <table className="w-full text-left text-xs">
+              <table className="w-full text-left text-xs min-w-[560px]">
                 <thead>
-                  <tr className="text-[#6F8BA3] text-[11px] font-semibold border-b border-[#12364B]/60">
-                    <th className="pb-3 font-medium">Product Name</th>
-                    <th className="pb-3 font-medium">Category</th>
-                    <th className="pb-3 font-medium">Price</th>
-                    <th className="pb-3 font-medium">Stock</th>
-                    <th className="pb-3 font-medium">Status</th>
-                    <th className="pb-3 font-medium text-right">Action</th>
+                  <tr className="text-[#57534E] text-[10px] font-bold uppercase tracking-wider border-b border-[#E5E0D8]">
+                    <th className="pb-3 font-semibold">Product Name</th>
+                    <th className="pb-3 font-semibold">Category</th>
+                    <th className="pb-3 font-semibold">Price</th>
+                    <th className="pb-3 font-semibold">Stock</th>
+                    <th className="pb-3 font-semibold">Status</th>
+                    <th className="pb-3 font-semibold text-right">Action</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#12364B]/40">
+                <tbody className="divide-y divide-[#E5E0D8]">
                   {inventoryList.map((item) => {
                     const isOutOfStock = item.inventory === 0;
                     const isLowStock = item.inventory > 0 && item.inventory <= 10;
                     return (
-                      <tr key={item.id} className="hover:bg-[#092137]/50 transition-colors group">
-                        <td className="py-3 font-medium text-[#F1F7FC] flex items-center gap-2.5">
-                          <div className="w-8 h-8 rounded-lg bg-[#092137] border border-[#12364B] flex items-center justify-center text-[#6F8BA3] group-hover:text-[#00E0B0] group-hover:border-[#00E0B0]/40 transition-colors">
+                      <tr key={item.id} className="hover:bg-[#FBF9F5] transition-colors group">
+                        <td className="py-3 font-medium text-[#0A0A0A] flex items-center gap-2.5">
+                          <div className="w-8 h-8 rounded-lg bg-[#F5F1EA] border border-[#E5E0D8] flex items-center justify-center text-[#57534E] group-hover:border-[#171717] group-hover:text-[#0A0A0A] transition-colors">
                             <Package className="w-4 h-4" />
                           </div>
                           <div>
-                            <span className="font-semibold text-[#F1F7FC] group-hover:text-[#00E0B0] transition-colors block">
+                            <span className="font-bold text-[#0A0A0A] transition-colors block">
                               {item.title}
                             </span>
                             {item.isDemo && (
-                              <span className="text-[9px] text-amber-400/80 font-mono">Demo SKU</span>
+                              <span className="text-[9px] text-amber-900 font-mono bg-amber-100 px-1 rounded border border-amber-200">Demo SKU</span>
                             )}
                           </div>
                         </td>
-                        <td className="py-3 text-[#9BB4C9]">
+                        <td className="py-3 text-[#57534E] font-medium">
                           {item.category}
                         </td>
-                        <td className="py-3 text-[#F1F7FC] font-semibold font-mono">
+                        <td className="py-3 text-[#0A0A0A] font-bold font-mono">
                           {currencySymbol} {item.price.toFixed(2)}
                         </td>
-                        <td className="py-3 text-[#F1F7FC] font-semibold font-mono">
+                        <td className="py-3 text-[#0A0A0A] font-bold font-mono">
                           {item.inventory}
                         </td>
                         <td className="py-3">
                           {isOutOfStock ? (
-                            <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/30">
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-900 border border-rose-300">
                               Out of Stock
                             </span>
                           ) : isLowStock ? (
-                            <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-500/10 text-amber-300 border border-amber-500/30">
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-900 border border-amber-300">
                               Low Stock ({item.inventory})
                             </span>
                           ) : (
-                            <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#00E0B0]/10 text-[#00E0B0] border border-[#00E0B0]/30">
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#D4FF00] text-[#0A0A0A] border border-[#C5EE00]">
                               In Stock
                             </span>
                           )}
@@ -402,7 +403,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                         <td className="py-3 text-right">
                           <button
                             onClick={() => onSelectProductForStudio(item)}
-                            className="inline-flex items-center gap-1 px-3 py-1 rounded-lg border border-[#00E0B0]/40 hover:bg-[#00E0B0]/15 text-[#00E0B0] text-[11px] font-semibold transition-all active:scale-95"
+                            className="inline-flex items-center gap-1 px-3 py-1 rounded-lg border border-[#171717] bg-[#D4FF00] hover:bg-[#C5EE00] text-[#0A0A0A] text-[11px] font-bold transition-all active:scale-95 shadow-sm"
                           >
                             <span>Create Copy</span>
                           </button>
@@ -417,18 +418,18 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
         </div>
 
         {/* Recent Activity Card backed by genuine data sources (1 col) */}
-        <div className="rounded-2xl p-6 bg-[#061A2B] border border-[#12364B] flex flex-col justify-between">
+        <div className="rounded-2xl p-6 bg-[#FFFFFF] border border-[#E5E0D8] shadow-sm flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between pb-4 border-b border-[#12364B]/60">
+            <div className="flex items-center justify-between pb-4 border-b border-[#E5E0D8]">
               <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4 text-[#00C9F2]" />
-                <h2 className="text-sm sm:text-base font-bold text-[#F1F7FC] font-sans">
+                <Clock className="w-4 h-4 text-[#0A0A0A]" />
+                <h2 className="text-sm sm:text-base font-bold text-[#0A0A0A] font-sans">
                   Recent Activity
                 </h2>
               </div>
               <button
                 onClick={() => onNavigate('insights')}
-                className="text-xs text-[#6F8BA3] hover:text-[#F1F7FC] transition-colors"
+                className="text-xs font-semibold text-[#57534E] hover:text-[#0A0A0A] transition-colors"
               >
                 View Telemetry
               </button>
@@ -438,19 +439,19 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
             <div className="mt-4 space-y-4">
               {/* Event 1: Growth Advisor report */}
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#A855F7]/10 border border-[#A855F7]/20 flex items-center justify-center text-[#A855F7] shrink-0 mt-0.5">
-                  <Sparkles className="w-4 h-4" />
+                <div className="w-8 h-8 rounded-full bg-[#F5F1EA] border border-[#E5E0D8] flex items-center justify-center text-[#0A0A0A] shrink-0 mt-0.5">
+                  <Sparkles className="w-4 h-4 text-[#0A0A0A]" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-1">
-                    <p className="text-xs font-semibold text-[#F1F7FC] truncate">
+                    <p className="text-xs font-bold text-[#0A0A0A] truncate">
                       {latestReport ? 'Growth Advisor Report' : 'Mastra Growth Workflow'}
                     </p>
-                    <span className="text-[10px] text-[#6F8BA3] shrink-0">
+                    <span className="text-[10px] font-mono text-[#57534E] bg-[#F5F1EA] px-1.5 py-0.5 rounded border border-[#E5E0D8] shrink-0">
                       {latestReport ? new Date(latestReport.createdAt).toLocaleDateString() : 'Ready'}
                     </span>
                   </div>
-                  <p className="text-[11px] text-[#9BB4C9] mt-0.5">
+                  <p className="text-[11px] text-[#57534E] mt-0.5 leading-relaxed">
                     {latestReport
                       ? `${latestReport.recommendations.length} action items • ${latestReport.modelUsed}`
                       : 'Deterministic sales diagnostics ready'}
@@ -460,19 +461,19 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
               {/* Event 2: Sales Telemetry */}
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#00C9F2]/10 border border-[#00C9F2]/20 flex items-center justify-center text-[#00C9F2] shrink-0 mt-0.5">
-                  <Upload className="w-4 h-4" />
+                <div className="w-8 h-8 rounded-full bg-[#F5F1EA] border border-[#E5E0D8] flex items-center justify-center text-[#0A0A0A] shrink-0 mt-0.5">
+                  <Upload className="w-4 h-4 text-[#0A0A0A]" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-1">
-                    <p className="text-xs font-semibold text-[#F1F7FC] truncate">
+                    <p className="text-xs font-bold text-[#0A0A0A] truncate">
                       {isRealData ? 'Imported Sales Telemetry' : 'Simulation Dataset'}
                     </p>
-                    <span className="text-[10px] text-[#6F8BA3] shrink-0">
+                    <span className="text-[10px] font-mono text-[#57534E] bg-[#F5F1EA] px-1.5 py-0.5 rounded border border-[#E5E0D8] shrink-0">
                       {isRealData ? 'Active' : 'Demo'}
                     </span>
                   </div>
-                  <p className="text-[11px] text-[#9BB4C9] mt-0.5">
+                  <p className="text-[11px] text-[#57534E] mt-0.5 leading-relaxed">
                     {isRealData
                       ? `${insights?.importedRecordsCount || 0} rows • ${currencySymbol} ${revenueVal.toLocaleString()}`
                       : '508 simulated orders • Multi-channel model'}
@@ -482,17 +483,17 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
               {/* Event 3: Product Inventory */}
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#00E0B0]/10 border border-[#00E0B0]/20 flex items-center justify-center text-[#00E0B0] shrink-0 mt-0.5">
-                  <Layers className="w-4 h-4" />
+                <div className="w-8 h-8 rounded-full bg-[#F5F1EA] border border-[#E5E0D8] flex items-center justify-center text-[#0A0A0A] shrink-0 mt-0.5">
+                  <Layers className="w-4 h-4 text-[#0A0A0A]" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-1">
-                    <p className="text-xs font-semibold text-[#F1F7FC] truncate">
+                    <p className="text-xs font-bold text-[#0A0A0A] truncate">
                       Store Catalog Engine
                     </p>
-                    <span className="text-[10px] text-[#6F8BA3] shrink-0">Active</span>
+                    <span className="text-[10px] font-mono text-[#57534E] bg-[#F5F1EA] px-1.5 py-0.5 rounded border border-[#E5E0D8] shrink-0">Active</span>
                   </div>
-                  <p className="text-[11px] text-[#9BB4C9] mt-0.5">
+                  <p className="text-[11px] text-[#57534E] mt-0.5 leading-relaxed">
                     {products.length} registered product SKUs in database
                   </p>
                 </div>
@@ -500,17 +501,17 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
               {/* Event 4: System Health */}
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#00E0B0]/10 border border-[#00E0B0]/20 flex items-center justify-center text-[#00E0B0] shrink-0 mt-0.5">
-                  <CheckCircle2 className="w-4 h-4" />
+                <div className="w-8 h-8 rounded-full bg-[#F5F1EA] border border-[#E5E0D8] flex items-center justify-center text-[#0A0A0A] shrink-0 mt-0.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#0A0A0A]" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-1">
-                    <p className="text-xs font-semibold text-[#F1F7FC] truncate">
+                    <p className="text-xs font-bold text-[#0A0A0A] truncate">
                       Database &amp; API Health
                     </p>
-                    <span className="text-[10px] text-[#00E0B0] shrink-0">Connected</span>
+                    <span className="text-[10px] font-bold text-[#0A0A0A] bg-[#D4FF00] px-1.5 py-0.5 rounded border border-[#171717] shrink-0">Connected</span>
                   </div>
-                  <p className="text-[11px] text-[#9BB4C9] mt-0.5">
+                  <p className="text-[11px] text-[#57534E] mt-0.5 leading-relaxed">
                     MongoDB Atlas persistence active
                   </p>
                 </div>
@@ -520,28 +521,28 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
           <button
             onClick={() => onNavigate('advisor')}
-            className="mt-6 w-full py-2.5 rounded-xl border border-[#12364B] hover:border-[#00C9F2]/50 hover:bg-[#092137] text-xs font-semibold text-[#9BB4C9] hover:text-[#F1F7FC] transition-all flex items-center justify-center gap-1.5"
+            className="mt-6 w-full py-2.5 rounded-xl border border-[#171717] bg-[#F5F1EA] hover:bg-[#EBE5DB] text-xs font-bold text-[#0A0A0A] transition-all flex items-center justify-center gap-1.5 shadow-sm active:scale-95"
           >
             <span>Run Growth Advisor</span>
-            <ArrowRight className="w-3.5 h-3.5 text-[#00C9F2]" />
+            <ArrowRight className="w-3.5 h-3.5 text-[#0A0A0A]" />
           </button>
         </div>
       </div>
 
       {/* Modal for adding custom product */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#03111F]/80 backdrop-blur-sm animate-in fade-in">
-          <div className="w-full max-w-md rounded-2xl p-6 bg-[#061A2B] border border-[#12364B] shadow-2xl relative">
-            <h3 className="text-lg font-bold text-[#F1F7FC] font-sans">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0A0A0A]/40 backdrop-blur-sm animate-in fade-in">
+          <div className="w-full max-w-md rounded-2xl p-6 bg-[#FFFFFF] border border-[#171717] shadow-2xl relative">
+            <h3 className="text-lg font-bold text-[#0A0A0A] font-display">
               Add New Product
             </h3>
-            <p className="text-xs text-[#9BB4C9] mt-1">
+            <p className="text-xs text-[#57534E] mt-1">
               Add a new item to test the inventory engine and AI content creation.
             </p>
 
             <form onSubmit={handleCreateSubmit} className="mt-4 space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-[#9BB4C9] mb-1">
+                <label className="block text-xs font-semibold text-[#0A0A0A] mb-1">
                   Product Title *
                 </label>
                 <input
@@ -550,12 +551,12 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                   placeholder="e.g. Ergonomic Standing Desk Mat"
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
-                  className="w-full bg-[#03111F] border border-[#12364B] rounded-xl px-3.5 py-2 text-sm text-[#F1F7FC] placeholder-[#6F8BA3] focus:outline-none focus:border-[#00E0B0]"
+                  className="w-full bg-[#FFFFFF] border border-[#E5E0D8] rounded-xl px-3.5 py-2 text-sm text-[#0A0A0A] placeholder-[#78716C] focus:outline-none focus:border-[#0A0A0A] focus:ring-1 focus:ring-[#0A0A0A]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#9BB4C9] mb-1">
+                <label className="block text-xs font-semibold text-[#0A0A0A] mb-1">
                   Category *
                 </label>
                 <input
@@ -564,13 +565,13 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                   placeholder="e.g. Workspace"
                   value={newCategory}
                   onChange={(e) => setNewCategory(e.target.value)}
-                  className="w-full bg-[#03111F] border border-[#12364B] rounded-xl px-3.5 py-2 text-sm text-[#F1F7FC] placeholder-[#6F8BA3] focus:outline-none focus:border-[#00E0B0]"
+                  className="w-full bg-[#FFFFFF] border border-[#E5E0D8] rounded-xl px-3.5 py-2 text-sm text-[#0A0A0A] placeholder-[#78716C] focus:outline-none focus:border-[#0A0A0A] focus:ring-1 focus:ring-[#0A0A0A]"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-[#9BB4C9] mb-1">
+                  <label className="block text-xs font-semibold text-[#0A0A0A] mb-1">
                     Price ({currencySymbol})
                   </label>
                   <input
@@ -578,33 +579,33 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                     step="0.01"
                     value={newPrice}
                     onChange={(e) => setNewPrice(e.target.value)}
-                    className="w-full bg-[#03111F] border border-[#12364B] rounded-xl px-3.5 py-2 text-sm text-[#F1F7FC] focus:outline-none focus:border-[#00E0B0] font-mono"
+                    className="w-full bg-[#FFFFFF] border border-[#E5E0D8] rounded-xl px-3.5 py-2 text-sm text-[#0A0A0A] focus:outline-none focus:border-[#0A0A0A] focus:ring-1 focus:ring-[#0A0A0A] font-mono"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-[#9BB4C9] mb-1">
+                  <label className="block text-xs font-semibold text-[#0A0A0A] mb-1">
                     Initial Stock
                   </label>
                   <input
                     type="number"
                     value={newInventory}
                     onChange={(e) => setNewInventory(e.target.value)}
-                    className="w-full bg-[#03111F] border border-[#12364B] rounded-xl px-3.5 py-2 text-sm text-[#F1F7FC] focus:outline-none focus:border-[#00E0B0] font-mono"
+                    className="w-full bg-[#FFFFFF] border border-[#E5E0D8] rounded-xl px-3.5 py-2 text-sm text-[#0A0A0A] focus:outline-none focus:border-[#0A0A0A] focus:ring-1 focus:ring-[#0A0A0A] font-mono"
                   />
                 </div>
               </div>
 
-              <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-[#12364B]">
+              <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-[#E5E0D8]">
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="px-4 py-2 rounded-xl text-xs font-semibold text-[#9BB4C9] hover:text-[#F1F7FC] hover:bg-[#092137] transition-all"
+                  className="px-4 py-2 rounded-xl text-xs font-semibold text-[#57534E] hover:text-[#0A0A0A] hover:bg-[#F5F1EA] transition-all"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#00E0B0] to-[#00C9F2] hover:opacity-90 text-[#03111F] text-xs font-bold shadow-md transition-all"
+                  className="px-4 py-2 rounded-xl bg-[#D4FF00] hover:bg-[#C5EE00] text-[#0A0A0A] text-xs font-bold border border-[#171717] shadow-sm active:scale-95 transition-all"
                 >
                   Save Product
                 </button>

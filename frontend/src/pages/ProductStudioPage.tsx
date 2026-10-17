@@ -184,31 +184,31 @@ export const ProductStudioPage: React.FC<ProductStudioPageProps> = ({
   return (
     <div className="space-y-6 pb-16">
       {/* Top Helper Banner */}
-      <div className="glass-card rounded-2xl p-4 border border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+      <div className="rounded-2xl p-5 bg-[#FBF9F5] border border-[#E5E0D8] shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
-            <Zap className="w-5 h-5" />
+          <div className="w-10 h-10 rounded-xl bg-[#F5F1EA] border border-[#E5E0D8] flex items-center justify-center text-[#0A0A0A] shrink-0">
+            <Zap className="w-5 h-5 text-[#0A0A0A]" />
           </div>
           <div>
-            <span className="text-sm font-semibold text-slate-100">
+            <h1 className="text-sm font-bold text-[#0A0A0A] font-sans">
               Solo Seller AI Content Studio
-            </span>
-            <p className="text-xs text-slate-400">
+            </h1>
+            <p className="text-xs text-[#57534E] leading-relaxed">
               Select or type your product specs on the left. HustleKit AI constructs high-converting copy on the right.
             </p>
           </div>
         </div>
 
         {/* Quick Product Prefill Dropdown */}
-        <div className="flex items-center gap-2 self-stretch sm:self-auto">
-          <span className="text-xs text-slate-400 whitespace-nowrap">Load SKU:</span>
+        <div className="flex items-center gap-2 self-stretch sm:self-auto shrink-0">
+          <span className="text-xs font-semibold text-[#57534E] whitespace-nowrap">Load SKU:</span>
           <select
             onChange={(e) => {
               const found = products.find((p) => p.id === e.target.value);
               if (found) handlePrefillSelect(found);
             }}
             defaultValue=""
-            className="text-xs bg-slate-900 border border-slate-700 rounded-xl px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-purple-500 w-full sm:w-auto"
+            className="text-xs bg-[#FFFFFF] border border-[#E5E0D8] rounded-xl px-3 py-1.5 text-[#0A0A0A] focus:outline-none focus:border-[#0A0A0A] focus:ring-1 focus:ring-[#0A0A0A] w-full sm:w-auto font-medium"
           >
             <option value="" disabled>Choose existing product...</option>
             {products.map((p) => (
@@ -222,20 +222,20 @@ export const ProductStudioPage: React.FC<ProductStudioPageProps> = ({
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Left Column: Input Form (5 cols) */}
-        <div className="lg:col-span-6 glass-card rounded-2xl p-6 border border-slate-800 space-y-5">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+        <div className="lg:col-span-6 rounded-2xl p-6 bg-[#FFFFFF] border border-[#E5E0D8] shadow-sm space-y-5">
+          <div className="flex items-center justify-between pb-3 border-b border-[#E5E0D8]">
             <div className="flex items-center gap-2">
-              <Sliders className="w-4 h-4 text-purple-400" />
-              <h2 className="text-sm font-bold uppercase tracking-wider text-slate-200">
+              <Sliders className="w-4 h-4 text-[#0A0A0A]" />
+              <h2 className="text-xs font-bold uppercase tracking-wider text-[#0A0A0A] font-sans">
                 1. Product Specs &amp; Tone
               </h2>
             </div>
-            <span className="text-xs text-slate-500">* Required</span>
+            <span className="text-[11px] font-mono text-[#78716C]">* Required</span>
           </div>
 
           {/* Product Title */}
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">
+            <label className="block text-xs font-bold text-[#0A0A0A] mb-1">
               Product Title *
             </label>
             <input
@@ -243,14 +243,14 @@ export const ProductStudioPage: React.FC<ProductStudioPageProps> = ({
               placeholder="e.g. Minimalist Leather Desk Mat Pro"
               value={productTitle}
               onChange={(e) => setProductTitle(e.target.value)}
-              className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500/50"
+              className="w-full bg-[#FFFFFF] border border-[#E5E0D8] rounded-xl px-3.5 py-2.5 text-sm text-[#0A0A0A] placeholder-[#78716C] focus:outline-none focus:border-[#0A0A0A] focus:ring-1 focus:ring-[#0A0A0A]"
             />
           </div>
 
           {/* Category & Price */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">
+              <label className="block text-xs font-bold text-[#0A0A0A] mb-1">
                 Category
               </label>
               <input
@@ -258,11 +258,11 @@ export const ProductStudioPage: React.FC<ProductStudioPageProps> = ({
                 placeholder="Workspace & Ergonomics"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-purple-500"
+                className="w-full bg-[#FFFFFF] border border-[#E5E0D8] rounded-xl px-3 py-2 text-xs text-[#0A0A0A] placeholder-[#78716C] focus:outline-none focus:border-[#0A0A0A] focus:ring-1 focus:ring-[#0A0A0A]"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">
+              <label className="block text-xs font-bold text-[#0A0A0A] mb-1">
                 Retail Price ($)
               </label>
               <input
@@ -271,14 +271,14 @@ export const ProductStudioPage: React.FC<ProductStudioPageProps> = ({
                 placeholder="38.00"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-purple-500 font-mono"
+                className="w-full bg-[#FFFFFF] border border-[#E5E0D8] rounded-xl px-3 py-2 text-xs text-[#0A0A0A] focus:outline-none focus:border-[#0A0A0A] focus:ring-1 focus:ring-[#0A0A0A] font-mono"
               />
             </div>
           </div>
 
           {/* Target Audience */}
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">
+            <label className="block text-xs font-bold text-[#0A0A0A] mb-1">
               Target Customer Segment
             </label>
             <input
@@ -286,13 +286,13 @@ export const ProductStudioPage: React.FC<ProductStudioPageProps> = ({
               placeholder="e.g. Remote workers, gamers, digital artists"
               value={targetAudience}
               onChange={(e) => setTargetAudience(e.target.value)}
-              className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-purple-500"
+              className="w-full bg-[#FFFFFF] border border-[#E5E0D8] rounded-xl px-3 py-2 text-xs text-[#0A0A0A] placeholder-[#78716C] focus:outline-none focus:border-[#0A0A0A] focus:ring-1 focus:ring-[#0A0A0A]"
             />
           </div>
 
           {/* Key Features Chips */}
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">
+            <label className="block text-xs font-bold text-[#0A0A0A] mb-1">
               Key Value Props &amp; Features ({features.length})
             </label>
             <div className="flex gap-2 mb-2">
@@ -307,32 +307,33 @@ export const ProductStudioPage: React.FC<ProductStudioPageProps> = ({
                     handleAddFeature();
                   }
                 }}
-                className="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-purple-500"
+                className="flex-1 bg-[#FFFFFF] border border-[#E5E0D8] rounded-xl px-3 py-1.5 text-xs text-[#0A0A0A] placeholder-[#78716C] focus:outline-none focus:border-[#0A0A0A] focus:ring-1 focus:ring-[#0A0A0A]"
               />
               <button
                 type="button"
                 onClick={handleAddFeature}
-                className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold transition-all"
+                className="px-3.5 py-1.5 rounded-xl bg-[#0A0A0A] hover:bg-[#1C1917] text-[#FBF9F5] text-xs font-bold transition-all shadow-sm active:scale-95"
               >
                 Add
               </button>
             </div>
 
             {/* Feature tags list */}
-            <div className="flex flex-wrap gap-1.5 min-h-[32px] p-2 rounded-xl bg-slate-900/50 border border-slate-800/80">
+            <div className="flex flex-wrap gap-1.5 min-h-[34px] p-2 rounded-xl bg-[#FBF9F5] border border-[#E5E0D8]">
               {features.length === 0 ? (
-                <span className="text-[11px] text-slate-500">No features added yet.</span>
+                <span className="text-[11px] text-[#78716C]">No features added yet.</span>
               ) : (
                 features.map((feat, idx) => (
                   <span
                     key={idx}
-                    className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-purple-500/10 border border-purple-500/30 text-purple-200 text-xs"
+                    className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg bg-[#FFFFFF] border border-[#E5E0D8] text-[#0A0A0A] text-xs font-medium shadow-xs"
                   >
                     <span>{feat}</span>
                     <button
                       type="button"
                       onClick={() => handleRemoveFeature(idx)}
-                      className="text-purple-400 hover:text-white"
+                      className="text-[#78716C] hover:text-[#0A0A0A] font-bold p-0.5"
+                      aria-label={`Remove ${feat}`}
                     >
                       &times;
                     </button>
@@ -342,14 +343,14 @@ export const ProductStudioPage: React.FC<ProductStudioPageProps> = ({
             </div>
 
             {/* Quick feature suggestions */}
-            <div className="mt-2 flex items-center gap-1.5 flex-wrap">
-              <span className="text-[10px] text-slate-500">Quick suggestions:</span>
+            <div className="mt-2.5 flex items-center gap-1.5 flex-wrap">
+              <span className="text-[10px] uppercase font-bold text-[#78716C]">Quick suggestions:</span>
               {['100% Vegan Leather', 'Fast 24h Shipping', 'Durable Edge Stitching', 'Money-Back Guarantee'].map((sug) => (
                 <button
                   key={sug}
                   type="button"
                   onClick={() => handleQuickFeatureAdd(sug)}
-                  className="text-[10px] px-2 py-0.5 rounded bg-slate-800/60 hover:bg-purple-900/40 text-slate-300 hover:text-purple-200 border border-slate-700/60 transition-all"
+                  className="text-[10px] px-2 py-0.5 rounded-lg bg-[#F5F1EA] hover:bg-[#EBE5DB] text-[#57534E] hover:text-[#0A0A0A] border border-[#E5E0D8] transition-all font-medium"
                 >
                   + {sug}
                 </button>
@@ -359,7 +360,7 @@ export const ProductStudioPage: React.FC<ProductStudioPageProps> = ({
 
           {/* Tone Selector */}
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+            <label className="block text-xs font-bold text-[#0A0A0A] mb-1.5">
               Copywriting Tone of Voice
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-5 gap-1.5">
@@ -368,10 +369,10 @@ export const ProductStudioPage: React.FC<ProductStudioPageProps> = ({
                   key={t.id}
                   type="button"
                   onClick={() => setTone(t.id)}
-                  className={`flex flex-col items-center justify-center p-2 rounded-xl border text-xs font-medium transition-all ${
+                  className={`flex flex-col items-center justify-center p-2 rounded-xl border text-xs font-semibold transition-all ${
                     tone === t.id
-                      ? 'bg-purple-600/20 border-purple-500 text-purple-200 shadow-sm'
-                      : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
+                      ? 'bg-[#D4FF00] border-[#171717] text-[#0A0A0A] shadow-sm font-bold'
+                      : 'bg-[#FBF9F5] border-[#E5E0D8] text-[#57534E] hover:bg-[#F5F1EA] hover:text-[#0A0A0A]'
                   }`}
                 >
                   <span className="text-sm">{t.emoji}</span>
@@ -383,8 +384,8 @@ export const ProductStudioPage: React.FC<ProductStudioPageProps> = ({
 
           {/* Content Type Selector */}
           <div>
-            <div className="flex items-center justify-between pb-2 mb-2 border-b border-slate-800">
-              <h2 className="text-sm font-bold uppercase tracking-wider text-slate-200">
+            <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#E5E0D8]">
+              <h2 className="text-xs font-bold uppercase tracking-wider text-[#0A0A0A] font-sans">
                 2. Select Content Format
               </h2>
             </div>
@@ -400,28 +401,28 @@ export const ProductStudioPage: React.FC<ProductStudioPageProps> = ({
                     onClick={() => setContentType(item.id)}
                     className={`flex items-start gap-2.5 p-3 rounded-xl border text-left transition-all ${
                       isSelected
-                        ? 'bg-purple-600/15 border-purple-500 shadow-sm'
-                        : 'bg-slate-900/60 border-slate-800 hover:border-slate-700 hover:bg-slate-800/40'
+                        ? 'bg-[#F5F1EA] border-[#171717] shadow-sm'
+                        : 'bg-[#FFFFFF] border-[#E5E0D8] hover:border-[#171717]/40 hover:bg-[#FBF9F5]'
                     }`}
                   >
                     <div
                       className={`p-1.5 rounded-lg shrink-0 ${
                         isSelected
-                          ? 'bg-purple-500 text-white'
-                          : 'bg-slate-800 text-slate-400'
+                          ? 'bg-[#0A0A0A] text-[#FBF9F5]'
+                          : 'bg-[#F5F1EA] text-[#57534E]'
                       }`}
                     >
                       <Icon className="w-4 h-4" />
                     </div>
                     <div>
                       <div
-                        className={`text-xs font-semibold ${
-                          isSelected ? 'text-purple-200' : 'text-slate-200'
+                        className={`text-xs font-bold ${
+                          isSelected ? 'text-[#0A0A0A]' : 'text-[#0A0A0A]'
                         }`}
                       >
                         {item.label}
                       </div>
-                      <div className="text-[10px] text-slate-400 mt-0.5 leading-snug">
+                      <div className="text-[10px] text-[#57534E] mt-0.5 leading-snug">
                         {item.desc}
                       </div>
                     </div>
@@ -433,15 +434,15 @@ export const ProductStudioPage: React.FC<ProductStudioPageProps> = ({
 
           {/* Customer query context if customer reply selected */}
           {contentType === 'customer_reply' && (
-            <div className="p-3 rounded-xl bg-slate-900 border border-slate-700/80 space-y-1.5 animate-in fade-in">
-              <label className="block text-xs font-semibold text-purple-300">
+            <div className="p-3 rounded-xl bg-[#FBF9F5] border border-[#E5E0D8] space-y-1.5 animate-in fade-in">
+              <label className="block text-xs font-bold text-[#0A0A0A]">
                 Customer Message or Question:
               </label>
               <textarea
                 rows={2}
                 value={customerQuery}
                 onChange={(e) => setCustomerQuery(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-slate-100 focus:outline-none focus:border-purple-500"
+                className="w-full bg-[#FFFFFF] border border-[#E5E0D8] rounded-lg p-2 text-xs text-[#0A0A0A] focus:outline-none focus:border-[#0A0A0A] focus:ring-1 focus:ring-[#0A0A0A]"
                 placeholder="Paste the buyer query here..."
               />
             </div>
@@ -449,8 +450,8 @@ export const ProductStudioPage: React.FC<ProductStudioPageProps> = ({
 
           {/* Error Message */}
           {error && (
-            <div className="flex items-center gap-2 p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs">
-              <AlertCircle className="w-4 h-4 shrink-0" />
+            <div className="flex items-center gap-2 p-3 rounded-xl bg-rose-50 border border-rose-300 text-rose-900 text-xs font-medium">
+              <AlertCircle className="w-4 h-4 shrink-0 text-rose-700" />
               <span>{error}</span>
             </div>
           )}
@@ -460,48 +461,50 @@ export const ProductStudioPage: React.FC<ProductStudioPageProps> = ({
             type="button"
             disabled={loading}
             onClick={handleGenerate}
-            className={`w-full py-3 px-4 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 shadow-lg transition-all ${
+            className={`w-full py-3 px-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-sm transition-all border ${
               loading
-                ? 'bg-[#061A2B] text-[#6F8BA3] border border-[#12364B] cursor-not-allowed'
-                : 'btn-shimmer bg-gradient-to-r from-[#00E0B0] to-[#00C9F2] hover:opacity-95 text-[#03111F] shadow-[#00E0B0]/20 active:scale-98 font-bold'
+                ? 'bg-[#F5F1EA] text-[#78716C] border-[#E5E0D8] cursor-not-allowed'
+                : 'bg-[#D4FF00] hover:bg-[#C5EE00] text-[#0A0A0A] border-[#171717] active:scale-98'
             }`}
           >
             {loading ? (
               <>
-                <RefreshCw className="w-4 h-4 animate-spin text-[#00E0B0]" />
+                <RefreshCw className="w-4 h-4 animate-spin text-[#0A0A0A]" />
                 <span>Crafting AI Copy...</span>
               </>
             ) : (
               <>
-                <Sparkles className="w-4 h-4 fill-[#03111F]" />
+                <Sparkles className="w-4 h-4 fill-[#0A0A0A] text-[#0A0A0A]" />
                 <span>Generate Content</span>
               </>
             )}
           </button>
         </div>
 
-        {/* Right Column: Output Preview Area (7 cols) */}
-        <div className="lg:col-span-6 glass-card rounded-2xl p-6 border border-slate-800 space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+        {/* Right Column: Output Preview Area (6 cols) */}
+        <div className="lg:col-span-6 rounded-2xl p-6 bg-[#FFFFFF] border border-[#E5E0D8] shadow-sm space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-[#E5E0D8]">
             <div className="flex items-center gap-2">
-              <FileText className="w-4 h-4 text-purple-400" />
-              <h2 className="text-sm font-bold uppercase tracking-wider text-slate-200">
-                Generated Output Preview
+              <FileText className="w-4 h-4 text-[#0A0A0A]" />
+              <h2 className="text-xs font-bold uppercase tracking-wider text-[#0A0A0A] font-sans">
+                2. Generated Output Preview
               </h2>
             </div>
 
             {result && (
               <div className="flex items-center gap-2">
                 <button
+                  type="button"
                   onClick={() => setIsEditingContent(!isEditingContent)}
-                  className="text-xs px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition-all font-medium"
+                  className="text-xs px-3 py-1.5 rounded-xl bg-[#F5F1EA] hover:bg-[#EAE4D9] text-[#0A0A0A] border border-[#E5E0D8] transition-colors font-medium focus:outline-none focus:ring-2 focus:ring-[#0A0A0A] focus:ring-offset-1"
                 >
                   {isEditingContent ? 'Preview Formatted' : 'Edit Copy'}
                 </button>
 
                 <button
+                  type="button"
                   onClick={handleCopy}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold shadow-sm transition-all active:scale-95"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#D4FF00] hover:bg-[#C5EE00] text-[#0A0A0A] border border-[#171717] text-xs font-bold shadow-sm transition-all active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#0A0A0A] focus:ring-offset-1"
                 >
                   {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                   <span>{copied ? 'Copied!' : 'Copy'}</span>
@@ -512,16 +515,16 @@ export const ProductStudioPage: React.FC<ProductStudioPageProps> = ({
 
           {/* Dynamic state rendering */}
           {loading ? (
-            <div className="p-12 text-center rounded-2xl border border-dashed border-teal-500/30 bg-teal-950/10 space-y-4">
+            <div className="p-12 text-center rounded-2xl border border-dashed border-[#E5E0D8] bg-[#FBF9F5] space-y-4">
               <div className="relative mx-auto w-12 h-12">
-                <div className="w-12 h-12 rounded-full border-2 border-teal-500/20 border-t-teal-400 animate-spin" />
-                <Sparkles className="w-5 h-5 text-teal-400 absolute inset-0 m-auto animate-pulse" />
+                <div className="w-12 h-12 rounded-full border-2 border-[#E5E0D8] border-t-[#0A0A0A] animate-spin" />
+                <Sparkles className="w-5 h-5 text-[#0A0A0A] absolute inset-0 m-auto animate-pulse" />
               </div>
-              <h3 className="text-sm font-semibold text-teal-200">
+              <h3 className="text-sm font-bold text-[#0A0A0A] font-sans">
                 HustleKit Engine Synthesizing Content...
               </h3>
-              <p className="text-xs text-slate-400 max-w-sm mx-auto">
-                Analyzing product specs, aligning with {tone} tone parameters, and formatting for optimal conversion.
+              <p className="text-xs text-[#57534E] max-w-sm mx-auto leading-relaxed">
+                Analyzing product specs, aligning with <span className="font-semibold text-[#0A0A0A]">{tone}</span> tone parameters, and formatting for optimal conversion.
               </p>
             </div>
           ) : !result ? (
@@ -539,15 +542,15 @@ export const ProductStudioPage: React.FC<ProductStudioPageProps> = ({
           ) : (
             <div className="space-y-4 animate-page-enter">
               {/* Output Header Details */}
-              <div className="flex flex-wrap items-center justify-between gap-2 p-3 rounded-xl bg-slate-900/60 border border-slate-800">
+              <div className="flex flex-wrap items-center justify-between gap-2 p-3.5 rounded-xl bg-[#FBF9F5] border border-[#E5E0D8]">
                 <div>
-                  <h3 className="text-sm font-bold text-white">{result.title}</h3>
-                  <div className="flex items-center gap-2 mt-1 text-[11px] text-slate-400">
-                    <span>Format: <strong className="text-slate-300 capitalize">{result.contentType.replace('_', ' ')}</strong></span>
+                  <h3 className="text-sm font-bold text-[#0A0A0A] font-sans">{result.title}</h3>
+                  <div className="flex flex-wrap items-center gap-2 mt-1 text-[11px] text-[#57534E]">
+                    <span>Format: <strong className="text-[#0A0A0A] capitalize font-medium">{result.contentType.replace('_', ' ')}</strong></span>
                     <span>•</span>
-                    <span>Tone: <strong className="text-slate-300 capitalize">{result.tone}</strong></span>
+                    <span>Tone: <strong className="text-[#0A0A0A] capitalize font-medium">{result.tone}</strong></span>
                     <span>•</span>
-                    <span className="font-mono text-purple-300 font-medium">
+                    <span className="font-mono text-[#0A0A0A] font-medium bg-[#F5F1EA] px-1.5 py-0.5 rounded border border-[#E5E0D8]">
                       {result.wordCount} words / {result.characterCount} chars
                     </span>
                   </div>
@@ -560,34 +563,34 @@ export const ProductStudioPage: React.FC<ProductStudioPageProps> = ({
                 )}
               </div>
 
-              {/* Copy Body */}
-              <div className="rounded-xl border border-slate-800 bg-slate-950/80 p-4">
+              {/* Copy Body Canvas */}
+              <div className="rounded-xl border border-[#E5E0D8] bg-[#FBF9F5] p-4">
                 {isEditingContent ? (
                   <textarea
                     rows={10}
                     value={editedContent}
                     onChange={(e) => setEditedContent(e.target.value)}
-                    className="w-full bg-transparent text-sm text-slate-200 focus:outline-none font-sans leading-relaxed resize-y"
+                    className="w-full bg-[#FFFFFF] border border-[#E5E0D8] rounded-xl p-3 text-sm text-[#0A0A0A] focus:outline-none focus:border-[#0A0A0A] focus:ring-1 focus:ring-[#0A0A0A] font-sans leading-relaxed resize-y break-words"
                   />
                 ) : (
-                  <div className="text-sm text-slate-200 whitespace-pre-wrap leading-relaxed select-text font-sans">
+                  <div className="text-sm text-[#0A0A0A] whitespace-pre-wrap leading-relaxed select-text font-sans break-words">
                     {result.content}
                   </div>
                 )}
               </div>
 
               {/* Suggested Tags & Channels */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                <div className="p-3 rounded-xl bg-slate-900/40 border border-slate-800">
-                  <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-300 mb-2">
-                    <Tag className="w-3.5 h-3.5 text-purple-400" />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                <div className="p-3.5 rounded-xl bg-[#FBF9F5] border border-[#E5E0D8]">
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-[#0A0A0A] mb-2 font-sans">
+                    <Tag className="w-3.5 h-3.5 text-[#0A0A0A]" />
                     <span>Suggested Tags</span>
                   </div>
-                  <div className="flex flex-wrap gap-1">
+                  <div className="flex flex-wrap gap-1.5">
                     {result.suggestedTags.map((tag, i) => (
                       <span
                         key={i}
-                        className="text-[11px] px-2 py-0.5 rounded bg-purple-500/10 text-purple-300 border border-purple-500/20"
+                        className="text-[11px] px-2 py-0.5 rounded-md bg-[#FFFFFF] text-[#0A0A0A] border border-[#E5E0D8] font-medium"
                       >
                         {tag}
                       </span>
@@ -595,16 +598,16 @@ export const ProductStudioPage: React.FC<ProductStudioPageProps> = ({
                   </div>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-900/40 border border-slate-800">
-                  <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-300 mb-2">
-                    <Share2 className="w-3.5 h-3.5 text-indigo-400" />
+                <div className="p-3.5 rounded-xl bg-[#FBF9F5] border border-[#E5E0D8]">
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-[#0A0A0A] mb-2 font-sans">
+                    <Share2 className="w-3.5 h-3.5 text-[#0A0A0A]" />
                     <span>Recommended Channels</span>
                   </div>
-                  <div className="flex flex-wrap gap-1">
+                  <div className="flex flex-wrap gap-1.5">
                     {result.suggestedChannels.map((ch, i) => (
                       <span
                         key={i}
-                        className="text-[11px] px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-300 border border-indigo-500/20"
+                        className="text-[11px] px-2 py-0.5 rounded-md bg-[#FFFFFF] text-[#0A0A0A] border border-[#E5E0D8] font-medium"
                       >
                         {ch}
                       </span>
@@ -615,18 +618,18 @@ export const ProductStudioPage: React.FC<ProductStudioPageProps> = ({
 
               {/* Disclaimer / Model notice */}
               <div
-                className={`p-3 rounded-xl border text-[11px] leading-relaxed flex items-start gap-2 ${
+                className={`p-3.5 rounded-xl border text-[11px] leading-relaxed flex items-start gap-2.5 ${
                   result.isDemo
-                    ? 'bg-slate-900/50 border-amber-500/20 text-amber-300/90'
-                    : 'bg-emerald-950/20 border-emerald-500/30 text-emerald-300/95'
+                    ? 'bg-[#FBF9F5] border-amber-300 text-amber-900'
+                    : 'bg-[#FBF9F5] border-emerald-300 text-emerald-900'
                 }`}
               >
                 {result.isDemo ? (
-                  <AlertCircle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                  <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
                 ) : (
-                  <Sparkles className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                  <Sparkles className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                 )}
-                <span>{result.modelNotice}</span>
+                <span className="font-medium">{result.modelNotice}</span>
               </div>
             </div>
           )}

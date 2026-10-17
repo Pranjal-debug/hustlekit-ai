@@ -210,14 +210,14 @@ export const SalesInsightsPage: React.FC<SalesInsightsPageProps> = ({
   return (
     <div className="space-y-6 pb-16">
       {/* Header Notice & Actions Bar */}
-      <div className="rounded-2xl p-4 bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-slate-900 border border-indigo-500/20 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+      <div className="rounded-2xl p-5 bg-[#FBF9F5] border border-[#E5E0D8] shadow-sm flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-indigo-500/20 text-indigo-300">
-            <TrendingUp className="w-5 h-5" />
+          <div className="w-10 h-10 rounded-xl bg-[#F5F1EA] border border-[#E5E0D8] text-[#0A0A0A] flex items-center justify-center shrink-0">
+            <TrendingUp className="w-5 h-5 text-[#0A0A0A]" />
           </div>
           <div>
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-sm font-semibold text-white">Sales Telemetry &amp; Analytics</span>
+              <span className="text-sm font-bold text-[#0A0A0A] font-sans">Sales Telemetry &amp; Analytics</span>
               {isRealData ? (
                 <Badge variant="success">
                   Real Imported Sales ({insights?.importedRecordsCount} transactions)
@@ -226,7 +226,7 @@ export const SalesInsightsPage: React.FC<SalesInsightsPageProps> = ({
                 <Badge variant="demo">Demo Simulation Dataset</Badge>
               )}
             </div>
-            <p className="text-xs text-slate-300 mt-0.5">
+            <p className="text-xs text-[#57534E] mt-0.5 leading-relaxed">
               {isRealData
                 ? 'Metrics, channels, and product rankings are calculated from actual imported order records.'
                 : 'Showing simulated store sales. Upload a CSV of your actual sales to analyze real telemetry.'}
@@ -237,30 +237,33 @@ export const SalesInsightsPage: React.FC<SalesInsightsPageProps> = ({
         {/* Action Buttons */}
         <div className="flex items-center gap-2 flex-wrap w-full lg:w-auto">
           <button
+            type="button"
             onClick={handleDownloadSample}
-            className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold flex items-center gap-1.5 border border-slate-700 transition-all"
+            className="px-3.5 py-1.5 rounded-xl bg-[#F5F1EA] hover:bg-[#EAE4D9] text-[#0A0A0A] text-xs font-semibold flex items-center gap-1.5 border border-[#E5E0D8] transition-colors focus:outline-none focus:ring-2 focus:ring-[#0A0A0A] focus:ring-offset-1"
             title="Download formatted sample CSV template"
           >
-            <Download className="w-3.5 h-3.5" />
+            <Download className="w-3.5 h-3.5 text-[#0A0A0A]" />
             <span>Sample CSV</span>
           </button>
 
           <button
+            type="button"
             onClick={() => setShowUploadModal(true)}
-            className="btn-shimmer px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-[#00E0B0] to-[#00C9F2] hover:opacity-95 text-[#03111F] text-xs font-bold flex items-center gap-1.5 shadow-md shadow-[#00E0B0]/20 transition-all active:scale-95"
+            className="px-4 py-1.5 rounded-xl bg-[#D4FF00] hover:bg-[#C5EE00] text-[#0A0A0A] text-xs font-bold flex items-center gap-1.5 border border-[#171717] shadow-sm transition-all active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#0A0A0A] focus:ring-offset-1"
           >
-            <Upload className="w-3.5 h-3.5" />
+            <Upload className="w-3.5 h-3.5 text-[#0A0A0A]" />
             <span>Import Sales CSV</span>
           </button>
 
           {isRealData && (
             <button
+              type="button"
               onClick={handleClearRecords}
               disabled={clearing}
-              className="px-3 py-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 text-xs font-semibold border border-rose-500/30 flex items-center gap-1.5 transition-all"
+              className="px-3.5 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-800 text-xs font-semibold border border-rose-300 flex items-center gap-1.5 transition-colors disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-rose-600 focus:ring-offset-1"
               title="Reset data back to demo simulation"
             >
-              <Trash2 className="w-3.5 h-3.5" />
+              <Trash2 className="w-3.5 h-3.5 text-rose-700" />
               <span>Reset to Demo</span>
             </button>
           )}
@@ -316,18 +319,18 @@ export const SalesInsightsPage: React.FC<SalesInsightsPageProps> = ({
       {/* Chart Area & Sales Forecast */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main Chart Area (2 cols) */}
-        <div className="lg:col-span-2 glass-card rounded-2xl p-6 border border-slate-800">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-4 border-b border-slate-800 gap-2 mb-4">
+        <div className="lg:col-span-2 rounded-2xl p-6 bg-[#FFFFFF] border border-[#E5E0D8] shadow-sm">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-4 border-b border-[#E5E0D8] gap-2 mb-4">
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-base font-bold text-white font-['Plus_Jakarta_Sans',sans-serif]">
+                <h2 className="text-base font-bold text-[#0A0A0A] font-sans">
                   Sales &amp; Revenue Trajectory
                 </h2>
-                <Badge variant={isRealData ? 'success' : 'purple'}>
+                <Badge variant={isRealData ? 'success' : 'neutral'}>
                   {isRealData ? 'Imported Trend' : '14-Day View'}
                 </Badge>
               </div>
-              <p className="text-xs text-slate-400 mt-0.5">
+              <p className="text-xs text-[#57534E] mt-0.5 leading-relaxed">
                 {isRealData
                   ? 'Daily aggregated totals from imported transaction records'
                   : 'Solid line represents confirmed sales; dashed sky line indicates forecast trajectory'}
@@ -343,44 +346,44 @@ export const SalesInsightsPage: React.FC<SalesInsightsPageProps> = ({
         </div>
 
         {/* AI Forecast Card */}
-        <div className="glass-card rounded-2xl p-6 border border-sky-500/30 bg-gradient-to-br from-slate-900 via-sky-950/20 to-purple-950/20 flex flex-col justify-between">
+        <div className="rounded-2xl p-6 bg-[#FFFFFF] border border-[#E5E0D8] shadow-sm flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between">
-              <span className="text-xs uppercase font-bold tracking-wider text-sky-400">
+              <span className="text-xs uppercase font-bold tracking-wider text-[#57534E] font-sans">
                 Predictive Forecast
               </span>
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-300 border border-sky-500/20">
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#F5F1EA] text-[#0A0A0A] border border-[#E5E0D8]">
                 Confidence: {forecast.confidenceScore}%
               </span>
             </div>
 
             <div className="mt-4">
-              <div className="text-xs text-slate-400">Next Month Est. Revenue</div>
-              <div className="text-3xl font-extrabold text-white mt-1 font-['Plus_Jakarta_Sans',sans-serif]">
+              <div className="text-xs text-[#57534E]">Next Month Est. Revenue</div>
+              <div className="text-3xl font-extrabold text-[#0A0A0A] mt-1 font-sans">
                 ${forecast.nextMonthEstimatedRevenue.toLocaleString()}
               </div>
               {forecast.estimatedGrowthRate > 0 && (
-                <div className="inline-flex items-center gap-1 text-xs text-emerald-400 font-semibold mt-1">
-                  <ArrowUpRight className="w-3.5 h-3.5" />
+                <div className="inline-flex items-center gap-1 text-xs text-emerald-800 font-semibold mt-1">
+                  <ArrowUpRight className="w-3.5 h-3.5 text-emerald-700" />
                   <span>+{forecast.estimatedGrowthRate}% vs current run rate</span>
                 </div>
               )}
             </div>
 
-            <div className="mt-5 p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
-              <div className="flex items-center gap-2 text-xs font-semibold text-slate-200">
-                <Lightbulb className="w-3.5 h-3.5 text-amber-400" />
+            <div className="mt-5 p-3.5 rounded-xl bg-[#FBF9F5] border border-[#E5E0D8] space-y-2">
+              <div className="flex items-center gap-2 text-xs font-bold text-[#0A0A0A]">
+                <Lightbulb className="w-3.5 h-3.5 text-amber-600" />
                 <span>Pacing Rationale</span>
               </div>
-              <p className="text-xs text-slate-300 leading-relaxed">
+              <p className="text-xs text-[#57534E] leading-relaxed">
                 {forecast.insightsSummary}
               </p>
             </div>
           </div>
 
-          <div className="mt-6 pt-4 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+          <div className="mt-6 pt-4 border-t border-[#E5E0D8] text-[11px] text-[#78716C] flex items-center justify-between">
             <span>Forecast Model:</span>
-            <span className="text-slate-300 font-mono">
+            <span className="text-[#0A0A0A] font-mono font-medium">
               {isRealData ? 'Rolling Linear Baseline' : 'HustleKit Linear-EWMA v1'}
             </span>
           </div>
@@ -398,16 +401,16 @@ export const SalesInsightsPage: React.FC<SalesInsightsPageProps> = ({
 
       {/* Top Products Performance Table (When Real Data is Available) */}
       {topProducts.length > 0 && (
-        <div className="glass-card rounded-2xl p-6 border border-slate-800">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
+        <div className="rounded-2xl p-6 bg-[#FFFFFF] border border-[#E5E0D8] shadow-sm">
+          <div className="flex items-center justify-between pb-3 border-b border-[#E5E0D8] mb-4">
             <div>
               <div className="flex items-center gap-2">
-                <Box className="w-4 h-4 text-purple-400" />
-                <h3 className="text-sm font-bold text-white font-['Plus_Jakarta_Sans',sans-serif]">
+                <Box className="w-4 h-4 text-[#0A0A0A]" />
+                <h3 className="text-sm font-bold text-[#0A0A0A] font-sans">
                   Imported Product Performance
                 </h3>
               </div>
-              <p className="text-xs text-slate-400 mt-0.5">
+              <p className="text-xs text-[#57534E] mt-0.5">
                 Calculated rankings from actual customer orders
               </p>
             </div>
@@ -417,25 +420,26 @@ export const SalesInsightsPage: React.FC<SalesInsightsPageProps> = ({
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead>
-                <tr className="text-slate-400 uppercase tracking-wider text-[11px] border-b border-slate-800/80">
-                  <th className="pb-3 font-semibold">Product Name</th>
-                  <th className="pb-3 font-semibold">Units Sold</th>
-                  <th className="pb-3 font-semibold">Gross Revenue</th>
-                  <th className="pb-3 font-semibold">Avg. Unit Price</th>
-                  <th className="pb-3 font-semibold text-right">Quick AI Action</th>
+                <tr className="text-[#78716C] uppercase tracking-wider text-[11px] border-b border-[#E5E0D8]">
+                  <th className="pb-3 font-bold">Product Name</th>
+                  <th className="pb-3 font-bold">Units Sold</th>
+                  <th className="pb-3 font-bold">Gross Revenue</th>
+                  <th className="pb-3 font-bold">Avg. Unit Price</th>
+                  <th className="pb-3 font-bold text-right">Quick AI Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/40">
+              <tbody className="divide-y divide-[#E5E0D8]/70">
                 {topProducts.map((p, idx) => (
-                  <tr key={idx} className="hover:bg-slate-800/30 transition-colors">
-                    <td className="py-3 font-semibold text-slate-200">{p.productName}</td>
-                    <td className="py-3 text-slate-300 font-mono">{p.unitsSold} units</td>
-                    <td className="py-3 text-emerald-400 font-semibold font-mono">
+                  <tr key={idx} className="hover:bg-[#FBF9F5] transition-colors">
+                    <td className="py-3 font-bold text-[#0A0A0A]">{p.productName}</td>
+                    <td className="py-3 text-[#57534E] font-mono">{p.unitsSold} units</td>
+                    <td className="py-3 text-[#0A0A0A] font-bold font-mono">
                       ${p.revenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                     </td>
-                    <td className="py-3 text-slate-300 font-mono">${p.averageUnitPrice.toFixed(2)}</td>
+                    <td className="py-3 text-[#57534E] font-mono">${p.averageUnitPrice.toFixed(2)}</td>
                     <td className="py-3 text-right">
                       <button
+                        type="button"
                         onClick={() => {
                           onSelectProductForStudio({
                             title: p.productName,
@@ -443,9 +447,9 @@ export const SalesInsightsPage: React.FC<SalesInsightsPageProps> = ({
                           });
                           onNavigate('studio');
                         }}
-                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 border border-purple-500/30 text-xs font-semibold transition-all"
+                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-[#F5F1EA] hover:bg-[#EAE4D9] text-[#0A0A0A] border border-[#E5E0D8] text-xs font-bold transition-all focus:outline-none focus:ring-2 focus:ring-[#0A0A0A] focus:ring-offset-1"
                       >
-                        <Sparkles className="w-3.5 h-3.5 text-purple-400" />
+                        <Sparkles className="w-3.5 h-3.5 text-[#0A0A0A]" />
                         <span>Create Copy</span>
                       </button>
                     </td>
@@ -460,20 +464,20 @@ export const SalesInsightsPage: React.FC<SalesInsightsPageProps> = ({
       {/* Recommended Actions Area & Channels Breakdown */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Recommended Actions (2 cols) */}
-        <div className="lg:col-span-2 glass-card rounded-2xl p-6 border border-slate-800">
-          <div className="flex items-center justify-between pb-4 border-b border-slate-800 mb-4">
+        <div className="lg:col-span-2 rounded-2xl p-6 bg-[#FFFFFF] border border-[#E5E0D8] shadow-sm">
+          <div className="flex items-center justify-between pb-4 border-b border-[#E5E0D8] mb-4">
             <div>
               <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-purple-400" />
-                <h2 className="text-base font-bold text-white font-['Plus_Jakarta_Sans',sans-serif]">
+                <Sparkles className="w-4 h-4 text-[#0A0A0A]" />
+                <h2 className="text-base font-bold text-[#0A0A0A] font-sans">
                   AI-Recommended Actions
                 </h2>
               </div>
-              <p className="text-xs text-slate-400 mt-0.5">
+              <p className="text-xs text-[#57534E] mt-0.5">
                 Tasks prioritized by projected revenue recovery and conversion lift
               </p>
             </div>
-            <span className="text-xs text-slate-400">
+            <span className="text-xs text-[#78716C] font-mono">
               {completedActionIds.length}/{recommendedActions.length} completed
             </span>
           </div>
@@ -489,8 +493,8 @@ export const SalesInsightsPage: React.FC<SalesInsightsPageProps> = ({
                   key={action.id}
                   className={`p-4 rounded-xl border transition-all ${
                     isCompleted
-                      ? 'bg-slate-900/30 border-slate-800/60 opacity-60'
-                      : 'bg-slate-900/70 border-slate-800 hover:border-slate-700'
+                      ? 'bg-[#FBF9F5] border-[#E5E0D8] opacity-60'
+                      : 'bg-[#FFFFFF] border-[#E5E0D8] hover:border-[#171717]'
                   }`}
                 >
                   <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
@@ -499,40 +503,41 @@ export const SalesInsightsPage: React.FC<SalesInsightsPageProps> = ({
                         <Badge variant={priorityVariant}>
                           {action.priority.toUpperCase()} PRIORITY
                         </Badge>
-                        <span className="text-[11px] font-medium uppercase text-slate-400 px-2 py-0.5 rounded bg-slate-800">
+                        <span className="text-[11px] font-bold uppercase text-[#57534E] px-2 py-0.5 rounded bg-[#F5F1EA] border border-[#E5E0D8]">
                           {action.category}
                         </span>
-                        <span className="text-xs font-bold text-slate-100">
+                        <span className="text-xs font-bold text-[#0A0A0A]">
                           {action.title}
                         </span>
                       </div>
-                      <p className="text-xs text-slate-300 leading-relaxed pt-1">
+                      <p className="text-xs text-[#57534E] leading-relaxed pt-1">
                         {action.description}
                       </p>
-                      <div className="text-[11px] font-medium text-emerald-400 flex items-center gap-1.5 pt-0.5">
-                        <Sparkles className="w-3 h-3" />
+                      <div className="text-[11px] font-semibold text-[#0A0A0A] flex items-center gap-1.5 pt-0.5">
+                        <Sparkles className="w-3 h-3 text-[#0A0A0A]" />
                         <span>Impact: {action.expectedImpact}</span>
                       </div>
                     </div>
 
                     <div className="sm:self-center shrink-0">
                       <button
+                        type="button"
                         onClick={() => handleActionClick(action)}
-                        className={`text-xs font-semibold px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+                        className={`text-xs font-bold px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 border focus:outline-none focus:ring-2 focus:ring-[#0A0A0A] focus:ring-offset-1 ${
                           isCompleted
-                            ? 'bg-slate-800 text-slate-300 hover:bg-slate-700'
-                            : 'bg-purple-600 hover:bg-purple-500 text-white shadow-sm shadow-purple-600/30 active:scale-95'
+                            ? 'bg-[#F5F1EA] text-[#57534E] hover:bg-[#EAE4D9] border-[#E5E0D8]'
+                            : 'bg-[#D4FF00] hover:bg-[#C5EE00] text-[#0A0A0A] border-[#171717] shadow-sm active:scale-95'
                         }`}
                       >
                         {isCompleted ? (
                           <>
-                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
                             <span>Mark Incomplete</span>
                           </>
                         ) : (
                           <>
                             <span>{action.suggestedActionLabel}</span>
-                            <ArrowUpRight className="w-3.5 h-3.5" />
+                            <ArrowUpRight className="w-3.5 h-3.5 text-[#0A0A0A]" />
                           </>
                         )}
                       </button>
@@ -545,16 +550,16 @@ export const SalesInsightsPage: React.FC<SalesInsightsPageProps> = ({
         </div>
 
         {/* Channel Breakdown (1 col) */}
-        <div className="glass-card rounded-2xl p-6 border border-slate-800 flex flex-col justify-between">
+        <div className="rounded-2xl p-6 bg-[#FFFFFF] border border-[#E5E0D8] shadow-sm flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
+            <div className="flex items-center justify-between pb-3 border-b border-[#E5E0D8] mb-4">
               <div className="flex items-center gap-2">
-                <Share2 className="w-4 h-4 text-indigo-400" />
-                <h3 className="text-sm font-bold text-white font-['Plus_Jakarta_Sans',sans-serif]">
+                <Share2 className="w-4 h-4 text-[#0A0A0A]" />
+                <h3 className="text-sm font-bold text-[#0A0A0A] font-sans">
                   Sales Channels
                 </h3>
               </div>
-              <span className="text-[10px] text-slate-400 uppercase tracking-wider">
+              <span className="text-[10px] text-[#78716C] uppercase tracking-wider font-bold">
                 Distribution
               </span>
             </div>
@@ -563,33 +568,33 @@ export const SalesInsightsPage: React.FC<SalesInsightsPageProps> = ({
               {channels.map((ch, idx) => (
                 <div key={idx} className="space-y-1.5">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="font-medium text-slate-200">{ch.channel}</span>
-                    <span className="font-semibold text-slate-100 font-mono">
+                    <span className="font-semibold text-[#0A0A0A]">{ch.channel}</span>
+                    <span className="font-bold text-[#0A0A0A] font-mono">
                       ${ch.revenue.toLocaleString()}
                     </span>
                   </div>
 
-                  <div className="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
+                  <div className="w-full h-2 rounded-full bg-[#F5F1EA] border border-[#E5E0D8] overflow-hidden">
                     <div
                       className={`h-full rounded-full ${
                         idx === 0
-                          ? 'bg-purple-500'
+                          ? 'bg-[#0A0A0A]'
                           : idx === 1
-                          ? 'bg-indigo-500'
+                          ? 'bg-[#57534E]'
                           : idx === 2
-                          ? 'bg-sky-500'
-                          : 'bg-emerald-500'
+                          ? 'bg-[#78716C]'
+                          : 'bg-[#A8A29E]'
                       }`}
                       style={{ width: `${ch.sharePercentage}%` }}
                     />
                   </div>
 
-                  <div className="flex items-center justify-between text-[11px] text-slate-400">
+                  <div className="flex items-center justify-between text-[11px] text-[#57534E]">
                     <span>{ch.sharePercentage}% total sales</span>
                     {ch.growth !== undefined && (
                       <span
-                        className={`font-medium ${
-                          ch.growth >= 0 ? 'text-emerald-400' : 'text-rose-400'
+                        className={`font-semibold ${
+                          ch.growth >= 0 ? 'text-emerald-800' : 'text-rose-800'
                         }`}
                       >
                         {ch.growth >= 0 ? `+${ch.growth}%` : `${ch.growth}%`}
@@ -601,12 +606,13 @@ export const SalesInsightsPage: React.FC<SalesInsightsPageProps> = ({
             </div>
           </div>
 
-          <div className="mt-6 pt-4 border-t border-slate-800/80">
+          <div className="mt-6 pt-4 border-t border-[#E5E0D8]">
             <button
+              type="button"
               onClick={() => onNavigate('studio')}
-              className="w-full py-2.5 px-3 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-200 text-xs font-semibold flex items-center justify-center gap-2 transition-all"
+              className="w-full py-2.5 px-3 rounded-xl bg-[#F5F1EA] hover:bg-[#EAE4D9] text-[#0A0A0A] text-xs font-bold border border-[#E5E0D8] flex items-center justify-center gap-2 transition-colors focus:outline-none focus:ring-2 focus:ring-[#0A0A0A] focus:ring-offset-1"
             >
-              <Sparkles className="w-3.5 h-3.5 text-purple-400" />
+              <Sparkles className="w-3.5 h-3.5 text-[#0A0A0A]" />
               <span>Optimize Channel Marketing Copy</span>
             </button>
           </div>
@@ -615,18 +621,19 @@ export const SalesInsightsPage: React.FC<SalesInsightsPageProps> = ({
 
       {/* CSV Upload & Validation Modal */}
       {showUploadModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-sm animate-in fade-in">
-          <div className="glass-card w-full max-w-2xl rounded-2xl p-6 border border-slate-700 shadow-2xl relative max-h-[90vh] flex flex-col">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0A0A0A]/60 backdrop-blur-sm animate-in fade-in">
+          <div className="w-full max-w-2xl rounded-2xl p-6 bg-[#FFFFFF] border border-[#E5E0D8] shadow-2xl relative max-h-[90vh] flex flex-col">
+            <div className="flex items-center justify-between pb-3 border-b border-[#E5E0D8]">
               <div className="flex items-center gap-2.5">
-                <FileSpreadsheet className="w-5 h-5 text-purple-400" />
-                <h3 className="text-base font-bold text-white font-['Plus_Jakarta_Sans',sans-serif]">
+                <FileSpreadsheet className="w-5 h-5 text-[#0A0A0A]" />
+                <h3 className="text-base font-bold text-[#0A0A0A] font-sans">
                   Import Real Sales CSV
                 </h3>
               </div>
               <button
+                type="button"
                 onClick={() => setShowUploadModal(false)}
-                className="text-slate-400 hover:text-white text-lg font-bold p-1"
+                className="text-[#78716C] hover:text-[#0A0A0A] text-lg font-bold p-1 rounded-lg hover:bg-[#F5F1EA] transition-colors"
               >
                 &times;
               </button>
@@ -634,15 +641,15 @@ export const SalesInsightsPage: React.FC<SalesInsightsPageProps> = ({
 
             <div className="py-4 space-y-4 overflow-y-auto flex-1">
               {/* Schema description card */}
-              <div className="p-3.5 rounded-xl bg-slate-900/70 border border-slate-800 space-y-1.5 text-xs text-slate-300">
-                <span className="font-bold text-purple-300">Supported CSV Schema:</span>
+              <div className="p-3.5 rounded-xl bg-[#FBF9F5] border border-[#E5E0D8] space-y-1.5 text-xs text-[#57534E]">
+                <span className="font-bold text-[#0A0A0A]">Supported CSV Schema:</span>
                 <p className="leading-relaxed">
-                  Your CSV must include: <code className="text-slate-100 bg-slate-800 px-1 py-0.5 rounded font-mono">product_name</code>, <code className="text-slate-100 bg-slate-800 px-1 py-0.5 rounded font-mono">date</code> (YYYY-MM-DD), <code className="text-slate-100 bg-slate-800 px-1 py-0.5 rounded font-mono">quantity</code>, and <code className="text-slate-100 bg-slate-800 px-1 py-0.5 rounded font-mono">unit_price</code>. Optional: <code className="text-slate-100 bg-slate-800 px-1 py-0.5 rounded font-mono">order_id</code>, <code className="text-slate-100 bg-slate-800 px-1 py-0.5 rounded font-mono">channel</code>.
+                  Your CSV must include: <code className="text-[#0A0A0A] bg-[#F5F1EA] px-1 py-0.5 rounded border border-[#E5E0D8] font-mono">product_name</code>, <code className="text-[#0A0A0A] bg-[#F5F1EA] px-1 py-0.5 rounded border border-[#E5E0D8] font-mono">date</code> (YYYY-MM-DD), <code className="text-[#0A0A0A] bg-[#F5F1EA] px-1 py-0.5 rounded border border-[#E5E0D8] font-mono">quantity</code>, and <code className="text-[#0A0A0A] bg-[#F5F1EA] px-1 py-0.5 rounded border border-[#E5E0D8] font-mono">unit_price</code>. Optional: <code className="text-[#0A0A0A] bg-[#F5F1EA] px-1 py-0.5 rounded border border-[#E5E0D8] font-mono">order_id</code>, <code className="text-[#0A0A0A] bg-[#F5F1EA] px-1 py-0.5 rounded border border-[#E5E0D8] font-mono">channel</code>.
                 </p>
               </div>
 
               {/* Upload picker */}
-              <div className="border-2 border-dashed border-slate-700 rounded-2xl p-6 text-center hover:border-purple-500/50 transition-colors">
+              <div className="border-2 border-dashed border-[#E5E0D8] bg-[#FBF9F5] rounded-2xl p-6 text-center hover:border-[#0A0A0A] transition-colors">
                 <input
                   type="file"
                   id="csvFileInput"
@@ -654,45 +661,45 @@ export const SalesInsightsPage: React.FC<SalesInsightsPageProps> = ({
                   htmlFor="csvFileInput"
                   className="cursor-pointer flex flex-col items-center justify-center gap-2"
                 >
-                  <Upload className="w-8 h-8 text-purple-400" />
-                  <span className="text-sm font-semibold text-slate-200">
+                  <Upload className="w-8 h-8 text-[#0A0A0A]" />
+                  <span className="text-sm font-bold text-[#0A0A0A]">
                     {selectedFileName ? selectedFileName : 'Choose a CSV file or drag and drop'}
                   </span>
-                  <span className="text-xs text-slate-400">Max size 5MB</span>
+                  <span className="text-xs text-[#78716C]">Max size 5MB</span>
                 </label>
               </div>
 
               {/* Validation Status Preview */}
               {validating ? (
-                <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center gap-2 text-xs text-slate-400">
-                  <RefreshCw className="w-4 h-4 animate-spin text-purple-400" />
+                <div className="p-4 rounded-xl bg-[#FBF9F5] border border-[#E5E0D8] flex items-center justify-center gap-2 text-xs text-[#57534E]">
+                  <RefreshCw className="w-4 h-4 animate-spin text-[#0A0A0A]" />
                   <span>Validating CSV structure and row data...</span>
                 </div>
               ) : validationResult ? (
                 <div className="space-y-3">
                   {/* Summary Bar */}
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
-                    <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800">
-                      <div className="text-slate-400 text-[10px]">Valid Orders</div>
-                      <div className="text-base font-bold text-emerald-400">
+                    <div className="p-2.5 rounded-xl bg-[#FBF9F5] border border-[#E5E0D8]">
+                      <div className="text-[#78716C] text-[10px] font-bold uppercase">Valid Orders</div>
+                      <div className="text-base font-bold text-emerald-800">
                         {validationResult.validRows.length} / {validationResult.totalRows}
                       </div>
                     </div>
-                    <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800">
-                      <div className="text-slate-400 text-[10px]">Estimated Revenue</div>
-                      <div className="text-base font-bold text-white font-mono">
+                    <div className="p-2.5 rounded-xl bg-[#FBF9F5] border border-[#E5E0D8]">
+                      <div className="text-[#78716C] text-[10px] font-bold uppercase">Estimated Revenue</div>
+                      <div className="text-base font-bold text-[#0A0A0A] font-mono">
                         ${validationResult.previewSummary.estimatedTotalRevenue.toLocaleString()}
                       </div>
                     </div>
-                    <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800">
-                      <div className="text-slate-400 text-[10px]">Unique SKUs</div>
-                      <div className="text-base font-bold text-purple-300">
+                    <div className="p-2.5 rounded-xl bg-[#FBF9F5] border border-[#E5E0D8]">
+                      <div className="text-[#78716C] text-[10px] font-bold uppercase">Unique SKUs</div>
+                      <div className="text-base font-bold text-[#0A0A0A]">
                         {validationResult.previewSummary.productsCount}
                       </div>
                     </div>
-                    <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800">
-                      <div className="text-slate-400 text-[10px]">Date Span</div>
-                      <div className="text-[11px] font-semibold text-slate-200 truncate mt-1">
+                    <div className="p-2.5 rounded-xl bg-[#FBF9F5] border border-[#E5E0D8]">
+                      <div className="text-[#78716C] text-[10px] font-bold uppercase">Date Span</div>
+                      <div className="text-[11px] font-bold text-[#0A0A0A] truncate mt-1">
                         {validationResult.previewSummary.dateRange.start || 'N/A'}
                       </div>
                     </div>
@@ -700,9 +707,9 @@ export const SalesInsightsPage: React.FC<SalesInsightsPageProps> = ({
 
                   {/* Errors preview if any */}
                   {validationResult.errors.length > 0 && (
-                    <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs space-y-1 max-h-32 overflow-y-auto">
-                      <div className="font-semibold flex items-center gap-1.5">
-                        <AlertCircle className="w-3.5 h-3.5" />
+                    <div className="p-3 rounded-xl bg-rose-50 border border-rose-300 text-rose-900 text-xs space-y-1 max-h-32 overflow-y-auto">
+                      <div className="font-bold flex items-center gap-1.5">
+                        <AlertCircle className="w-3.5 h-3.5 text-rose-700" />
                         <span>{validationResult.errors.length} rows contain validation errors (will be skipped):</span>
                       </div>
                       {validationResult.errors.slice(0, 5).map((e, idx) => (
@@ -711,7 +718,7 @@ export const SalesInsightsPage: React.FC<SalesInsightsPageProps> = ({
                         </div>
                       ))}
                       {validationResult.errors.length > 5 && (
-                        <div className="text-[10px] text-rose-400">
+                        <div className="text-[10px] text-rose-800">
                           ...and {validationResult.errors.length - 5} more issues.
                         </div>
                       )}
@@ -722,11 +729,11 @@ export const SalesInsightsPage: React.FC<SalesInsightsPageProps> = ({
             </div>
 
             {/* Modal Actions */}
-            <div className="pt-3 border-t border-slate-800 flex items-center justify-between">
+            <div className="pt-3 border-t border-[#E5E0D8] flex items-center justify-between">
               <button
                 type="button"
                 onClick={handleDownloadSample}
-                className="text-xs text-purple-400 hover:text-purple-300 flex items-center gap-1"
+                className="text-xs text-[#0A0A0A] hover:underline flex items-center gap-1 font-semibold"
               >
                 <Download className="w-3.5 h-3.5" />
                 <span>Download Sample Format</span>
@@ -736,7 +743,7 @@ export const SalesInsightsPage: React.FC<SalesInsightsPageProps> = ({
                 <button
                   type="button"
                   onClick={() => setShowUploadModal(false)}
-                  className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white"
+                  className="px-4 py-2 rounded-xl text-xs font-semibold text-[#57534E] hover:text-[#0A0A0A] hover:bg-[#F5F1EA] transition-colors"
                 >
                   Cancel
                 </button>
@@ -744,16 +751,16 @@ export const SalesInsightsPage: React.FC<SalesInsightsPageProps> = ({
                   type="button"
                   disabled={importing || !validationResult || validationResult.validRows.length === 0}
                   onClick={handleConfirmImport}
-                  className="btn-shimmer px-4 py-2 rounded-xl bg-gradient-to-r from-[#00E0B0] to-[#00C9F2] hover:opacity-95 disabled:opacity-50 text-[#03111F] text-xs font-bold flex items-center gap-1.5 shadow-md shadow-[#00E0B0]/20 transition-all"
+                  className="px-4 py-2 rounded-xl bg-[#D4FF00] hover:bg-[#C5EE00] disabled:opacity-40 text-[#0A0A0A] border border-[#171717] text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-[#0A0A0A] focus:ring-offset-1"
                 >
                   {importing ? (
                     <>
-                      <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                      <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#0A0A0A]" />
                       <span>Importing...</span>
                     </>
                   ) : (
                     <>
-                      <Check className="w-3.5 h-3.5" />
+                      <Check className="w-3.5 h-3.5 text-[#0A0A0A]" />
                       <span>
                         Import {validationResult ? `${validationResult.validRows.length} Orders` : 'CSV'}
                       </span>

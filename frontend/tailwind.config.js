@@ -38,10 +38,33 @@ export default {
           800: '#092137',
           900: '#061A2B',
           950: '#03111F'
+        },
+        // Editorial commerce design tokens
+        ivory: {
+          50: '#FBF9F5',
+          100: '#F5F1EA',
+          200: '#EBE5DB',
+        },
+        ink: {
+          950: '#0A0A0A',
+          800: '#1C1917',
+          600: '#57534E',
+        },
+        lime: {
+          accent: '#D4FF00',
+          hover: '#C5EE00',
+          dark: '#A8D100',
+        },
+        border: {
+          ivory: '#E5E0D8',
+          dark: '#171717',
         }
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        display: ['"DM Serif Display"', 'Georgia', 'serif'],
+        serif: ['"DM Serif Display"', 'Georgia', 'serif'],
+        mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
       }
     },
   },

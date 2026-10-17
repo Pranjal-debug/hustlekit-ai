@@ -26,7 +26,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
 }) => {
   const [settings, setSettings] = useState<StoreSettings>({
     storeName: 'AeroCraft Solo Commerce',
-    sellerName: 'Alex Rivera',
+    sellerName: 'Pranjal Gupta',
     currency: 'USD ($)',
     defaultTone: 'persuasive',
     targetMarket: 'Remote professionals, designers, and EDC enthusiasts',
@@ -86,49 +86,54 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
       {/* Settings Form */}
       <form onSubmit={handleSave} className="space-y-6">
         {/* Store Profile Card */}
-        <div className="glass-card rounded-2xl p-6 border border-slate-800 space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-slate-800">
-            <Store className="w-5 h-5 text-purple-400" />
-            <h2 className="text-base font-bold text-white font-['Plus_Jakarta_Sans',sans-serif]">
-              Store Identity &amp; Profile
-            </h2>
+        <div className="rounded-2xl p-6 bg-[#FFFFFF] border border-[#E5E0D8] shadow-sm space-y-4">
+          <div className="flex items-center gap-2.5 pb-3.5 border-b border-[#E5E0D8]">
+            <div className="w-9 h-9 rounded-xl bg-[#F5F1EA] border border-[#E5E0D8] text-[#0A0A0A] flex items-center justify-center shrink-0">
+              <Store className="w-5 h-5 text-[#0A0A0A]" />
+            </div>
+            <div>
+              <h2 className="text-base font-bold text-[#0A0A0A] font-sans">
+                Store Identity &amp; Profile
+              </h2>
+              <p className="text-xs text-[#57534E]">Brand identity, founder profile, and default ecommerce parameters</p>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">
+              <label className="block text-xs font-bold text-[#0A0A0A] mb-1.5 font-sans">
                 Store / Brand Name
               </label>
               <input
                 type="text"
                 value={settings.storeName}
                 onChange={(e) => setSettings({ ...settings, storeName: e.target.value })}
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none focus:border-purple-500"
+                className="w-full bg-[#FFFFFF] border border-[#E5E0D8] rounded-xl px-3.5 py-2.5 text-xs text-[#0A0A0A] font-medium placeholder-[#78716C] focus:outline-none focus:border-[#0A0A0A] focus:ring-1 focus:ring-[#0A0A0A] transition-colors"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">
+              <label className="block text-xs font-bold text-[#0A0A0A] mb-1.5 font-sans">
                 Solo Founder / Operator Name
               </label>
               <input
                 type="text"
                 value={settings.sellerName}
                 onChange={(e) => setSettings({ ...settings, sellerName: e.target.value })}
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none focus:border-purple-500"
+                className="w-full bg-[#FFFFFF] border border-[#E5E0D8] rounded-xl px-3.5 py-2.5 text-xs text-[#0A0A0A] font-medium placeholder-[#78716C] focus:outline-none focus:border-[#0A0A0A] focus:ring-1 focus:ring-[#0A0A0A] transition-colors"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">
+              <label className="block text-xs font-bold text-[#0A0A0A] mb-1.5 font-sans">
                 Default Currency
               </label>
               <select
                 value={settings.currency}
                 onChange={(e) => setSettings({ ...settings, currency: e.target.value })}
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-purple-500"
+                className="w-full bg-[#FFFFFF] border border-[#E5E0D8] rounded-xl px-3.5 py-2.5 text-xs text-[#0A0A0A] font-medium focus:outline-none focus:border-[#0A0A0A] focus:ring-1 focus:ring-[#0A0A0A] transition-colors"
               >
                 <option value="USD ($)">USD ($)</option>
                 <option value="EUR (€)">EUR (€)</option>
@@ -139,13 +144,13 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">
+              <label className="block text-xs font-bold text-[#0A0A0A] mb-1.5 font-sans">
                 Default Copywriting Tone
               </label>
               <select
                 value={settings.defaultTone}
                 onChange={(e) => setSettings({ ...settings, defaultTone: e.target.value as ToneType })}
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-purple-500"
+                className="w-full bg-[#FFFFFF] border border-[#E5E0D8] rounded-xl px-3.5 py-2.5 text-xs text-[#0A0A0A] font-medium focus:outline-none focus:border-[#0A0A0A] focus:ring-1 focus:ring-[#0A0A0A] transition-colors"
               >
                 <option value="persuasive">Persuasive (High Conversion)</option>
                 <option value="luxurious">Luxurious (Premium Brands)</option>
@@ -157,35 +162,40 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">
+            <label className="block text-xs font-bold text-[#0A0A0A] mb-1.5 font-sans">
               Primary Target Market Description
             </label>
             <input
               type="text"
               value={settings.targetMarket}
               onChange={(e) => setSettings({ ...settings, targetMarket: e.target.value })}
-              className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none focus:border-purple-500"
+              className="w-full bg-[#FFFFFF] border border-[#E5E0D8] rounded-xl px-3.5 py-2.5 text-xs text-[#0A0A0A] font-medium placeholder-[#78716C] focus:outline-none focus:border-[#0A0A0A] focus:ring-1 focus:ring-[#0A0A0A] transition-colors"
             />
           </div>
         </div>
 
         {/* AI & Backend Integration Card */}
-        <div className="glass-card rounded-2xl p-6 border border-slate-800 space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-            <div className="flex items-center gap-2">
-              <Server className="w-5 h-5 text-indigo-400" />
-              <h2 className="text-base font-bold text-white font-['Plus_Jakarta_Sans',sans-serif]">
-                AI Provider &amp; API Connectivity
-              </h2>
+        <div className="rounded-2xl p-6 bg-[#FFFFFF] border border-[#E5E0D8] shadow-sm space-y-4">
+          <div className="flex items-center justify-between pb-3.5 border-b border-[#E5E0D8]">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-xl bg-[#F5F1EA] border border-[#E5E0D8] text-[#0A0A0A] flex items-center justify-center shrink-0">
+                <Server className="w-5 h-5 text-[#0A0A0A]" />
+              </div>
+              <div>
+                <h2 className="text-base font-bold text-[#0A0A0A] font-sans">
+                  AI Provider &amp; API Connectivity
+                </h2>
+                <p className="text-xs text-[#57534E]">Real-time telemetry, model configuration, and connectivity diagnostics</p>
+              </div>
             </div>
             <Badge variant="purple">Architecture</Badge>
           </div>
 
-          <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 space-y-3">
+          <div className="p-4 rounded-xl bg-[#FBF9F5] border border-[#E5E0D8] space-y-3.5">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
               <div>
-                <span className="text-xs font-bold text-slate-200">Current AI Engine Mode:</span>
-                <p className="text-xs text-slate-400 mt-0.5">
+                <span className="text-xs font-bold text-[#0A0A0A] font-sans">Current AI Engine Mode:</span>
+                <p className="text-xs text-[#57534E] mt-0.5 leading-relaxed">
                   {settings.aiProviderConfigured
                     ? 'Configured with live OpenAI / Gemini keys in environment'
                     : 'Built-in HustleKit Heuristics & Copywriting Engine (Demo Mode)'}
@@ -196,25 +206,31 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
               </Badge>
             </div>
 
-            <div className="text-[11px] text-slate-400 bg-slate-950 p-3 rounded-lg border border-slate-800/80 font-mono">
-              <div>API_BASE_URL: {api.getBaseUrl()}</div>
-              <div>ENVIRONMENT: {health?.environment || 'development'}</div>
-              <div>ENGINE_STATUS: {health?.aiEngineStatus || 'demo_template_engine'}</div>
+            <div className="text-[11px] text-[#57534E] bg-[#F5F1EA] p-3 rounded-xl border border-[#E5E0D8] font-mono break-all space-y-1">
+              <div><strong className="text-[#0A0A0A]">API_BASE_URL:</strong> {api.getBaseUrl()}</div>
+              <div><strong className="text-[#0A0A0A]">ENVIRONMENT:</strong> {health?.environment || 'development'}</div>
+              <div><strong className="text-[#0A0A0A]">ENGINE_STATUS:</strong> {health?.aiEngineStatus || 'demo_template_engine'}</div>
             </div>
 
             <div className="flex items-center gap-2 pt-1">
               <button
                 type="button"
                 onClick={handleTestHealth}
-                className="px-3.5 py-1.5 rounded-lg bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/30 text-xs font-semibold flex items-center gap-1.5 transition-all"
+                className="px-3.5 py-2 rounded-xl bg-[#FFFFFF] hover:bg-[#F5F1EA] text-[#0A0A0A] border border-[#E5E0D8] text-xs font-bold flex items-center gap-1.5 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-[#0A0A0A] focus:ring-offset-1"
               >
-                <RefreshCw className="w-3.5 h-3.5" />
+                <RefreshCw className="w-3.5 h-3.5 text-[#0A0A0A]" />
                 <span>Test API Health Endpoint</span>
               </button>
             </div>
 
             {testResult && (
-              <div className="p-2.5 rounded-lg bg-slate-950 border border-indigo-500/30 text-xs text-indigo-200">
+              <div
+                className={`p-3 rounded-xl border text-xs font-medium leading-relaxed ${
+                  testResult.toLowerCase().includes('failed')
+                    ? 'bg-rose-50 border-rose-300 text-rose-900'
+                    : 'bg-emerald-50 border-emerald-300 text-emerald-900'
+                }`}
+              >
                 {testResult}
               </div>
             )}
@@ -222,21 +238,26 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
         </div>
 
         {/* Demo Data Management Card */}
-        <div className="glass-card rounded-2xl p-6 border border-slate-800 space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-slate-800">
-            <Database className="w-5 h-5 text-amber-400" />
-            <h2 className="text-base font-bold text-white font-['Plus_Jakarta_Sans',sans-serif]">
-              Demo Data &amp; Sandbox Controls
-            </h2>
+        <div className="rounded-2xl p-6 bg-[#FFFFFF] border border-[#E5E0D8] shadow-sm space-y-4">
+          <div className="flex items-center gap-2.5 pb-3.5 border-b border-[#E5E0D8]">
+            <div className="w-9 h-9 rounded-xl bg-[#F5F1EA] border border-[#E5E0D8] text-[#0A0A0A] flex items-center justify-center shrink-0">
+              <Database className="w-5 h-5 text-[#0A0A0A]" />
+            </div>
+            <div>
+              <h2 className="text-base font-bold text-[#0A0A0A] font-sans">
+                Demo Data &amp; Sandbox Controls
+              </h2>
+              <p className="text-xs text-[#57534E]">Sandbox inventory, simulation records, and sample telemetry</p>
+            </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-4 rounded-xl bg-amber-500/5 border border-amber-500/20">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-4 rounded-xl bg-amber-50 border border-amber-300">
             <div className="space-y-1">
-              <span className="text-xs font-bold text-amber-300 flex items-center gap-1.5">
-                <ShieldAlert className="w-4 h-4 text-amber-400" />
+              <span className="text-xs font-bold text-amber-950 flex items-center gap-1.5 font-sans">
+                <ShieldAlert className="w-4 h-4 text-amber-700" />
                 Realistic Demo Mode Active
               </span>
-              <p className="text-xs text-slate-300">
+              <p className="text-xs text-amber-900 leading-relaxed">
                 To evaluate the app without live storefront credentials, preloaded demo inventory and sales history are active.
               </p>
             </div>
@@ -244,7 +265,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
             <button
               type="button"
               onClick={onResetDemoData}
-              className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition-all shrink-0"
+              className="px-3.5 py-2 rounded-xl bg-[#FFFFFF] hover:bg-[#F5F1EA] text-[#0A0A0A] text-xs font-bold border border-[#E5E0D8] shadow-sm transition-colors shrink-0 focus:outline-none focus:ring-2 focus:ring-[#0A0A0A] focus:ring-offset-1"
             >
               Reload Demo Inventory
             </button>
@@ -256,16 +277,16 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
           <button
             type="submit"
             disabled={saving}
-            className="btn-shimmer px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#00E0B0] to-[#00C9F2] hover:opacity-95 text-[#03111F] font-bold text-xs sm:text-sm shadow-md shadow-[#00E0B0]/20 flex items-center gap-2 transition-all active:scale-95 disabled:opacity-50"
+            className="px-6 py-2.5 rounded-xl bg-[#D4FF00] hover:bg-[#C5EE00] text-[#0A0A0A] border border-[#171717] font-bold text-xs sm:text-sm shadow-sm flex items-center gap-2 transition-all active:scale-95 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-[#0A0A0A] focus:ring-offset-1"
           >
             {saving ? (
               <>
-                <RefreshCw className="w-4 h-4 animate-spin" />
+                <RefreshCw className="w-4 h-4 animate-spin text-[#0A0A0A]" />
                 <span>Saving...</span>
               </>
             ) : (
               <>
-                <Save className="w-4 h-4" />
+                <Save className="w-4 h-4 text-[#0A0A0A]" />
                 <span>Save Store Settings</span>
               </>
             )}

@@ -136,7 +136,7 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#03111F] text-[#F1F7FC] flex flex-col font-sans selection:bg-[#00E0B0]/30 selection:text-[#00E0B0] relative">
+    <div className="min-h-screen bg-[#FBF9F5] text-[#0A0A0A] flex flex-col font-sans selection:bg-[#D4FF00]/40 selection:text-[#0A0A0A] relative">
       {/* Ambient living background with flowing cyan/emerald waves */}
       <AmbientBackground />
 
@@ -206,17 +206,17 @@ export function App() {
 
             {activePage === 'advisor' && (
               <div className="space-y-6 pb-12">
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-3 border-b border-[#12364B] gap-2">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-3 border-b border-[#E5E0D8] gap-2">
                   <div>
-                    <h1 className="text-xl sm:text-2xl font-bold text-[#F1F7FC] tracking-tight font-sans">
+                    <h1 className="text-xl sm:text-2xl font-bold text-[#0A0A0A] tracking-tight font-sans">
                       Mastra Sales Growth Advisor
                     </h1>
-                    <p className="text-xs text-[#9BB4C9] mt-0.5">
+                    <p className="text-xs text-[#57534E] mt-0.5">
                       Multi-step AI workflow orchestrating telemetry diagnostics, schema validation, and growth actions.
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-[11px] px-2.5 py-1 rounded-full bg-[#00E0B0]/10 border border-[#00E0B0]/30 text-[#00E0B0] font-semibold">
+                    <span className="text-[11px] px-2.5 py-1 rounded-full bg-[#D4FF00] border border-[#C5EE00] text-[#0A0A0A] font-semibold">
                       Mastra Workflow Orchestration
                     </span>
                   </div>
