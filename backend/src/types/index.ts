@@ -30,6 +30,10 @@ export interface HealthResponse {
     status: 'connected' | 'disconnected' | 'in_memory_fallback';
     dbName?: string;
   };
+  mastra?: {
+    workflow: string;
+    ready: boolean;
+  };
 }
 
 export interface ContentGenerationRequest {

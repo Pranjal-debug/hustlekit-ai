@@ -8,22 +8,101 @@ import {
   createSalesGrowthAdvisorWorkflow,
 } from '../../mastra/workflow';
 import {
-  initDatabase,
-  closeDatabase,
+  setDatabaseMocks,
+  resetDatabaseMocks,
+  computeRecordHash,
   clearSalesRecords,
   insertSalesRecords,
   saveAdvisorReportToDb,
   getAdvisorReportsFromDb,
   getLatestAdvisorReportFromDb,
+  closeDatabase,
 } from '../../db/mongo';
-import { AdvisorReport } from '../../types';
+import { AdvisorReport, SalesRecord, SalesRecordInput, SalesImportSummary } from '../../types';
 
 describe('Mastra Sales Growth Advisor Workflow Tests', () => {
   let server: http.Server;
   let baseUrl: string;
 
+  // In-memory isolated mock database store for workflow unit tests
+  const mockSalesStore = new Map<string, SalesRecord[]>();
+  const mockAdvisorReports: AdvisorReport[] = [];
+
+  const mockDb = {
+    getSalesRecords: async (workspaceId: string = 'default'): Promise<SalesRecord[]> => {
+      return (mockSalesStore.get(workspaceId) || []).slice();
+    },
+    insertSalesRecords: async (
+      workspaceId: string,
+      records: SalesRecordInput[]
+    ): Promise<SalesImportSummary> => {
+      const existing = mockSalesStore.get(workspaceId) || [];
+      let insertedCount = 0;
+      let skippedDuplicatesCount = 0;
+      let totalImportedRevenue = 0;
+
+      for (const raw of records) {
+        const hash = computeRecordHash(workspaceId, raw);
+        if (existing.some((e) => e.recordHash === hash)) {
+          skippedDuplicatesCount++;
+          continue;
+        }
+        const rev = raw.revenue ?? raw.quantity * raw.unitPrice;
+        const fullRecord: SalesRecord = {
+          id: `sale_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+          workspaceId,
+          orderId: raw.orderId,
+          productName: raw.productName.trim(),
+          productId: raw.productId,
+          date: raw.date,
+          quantity: raw.quantity,
+          unitPrice: raw.unitPrice,
+          revenue: rev,
+          channel: raw.channel || 'Direct / Imported',
+          recordHash: hash,
+          createdAt: new Date().toISOString(),
+        };
+        existing.push(fullRecord);
+        insertedCount++;
+        totalImportedRevenue += rev;
+      }
+      mockSalesStore.set(workspaceId, existing);
+      return {
+        totalRowsProcessed: records.length,
+        insertedCount,
+        skippedDuplicatesCount,
+        invalidRowsCount: 0,
+        totalImportedRevenue: Math.round(totalImportedRevenue * 100) / 100,
+        persistedTo: 'memory',
+      };
+    },
+    clearSalesRecords: async (workspaceId: string = 'default'): Promise<number> => {
+      const existing = mockSalesStore.get(workspaceId) || [];
+      const count = existing.length;
+      mockSalesStore.delete(workspaceId);
+      return count;
+    },
+    saveAdvisorReportToDb: async (report: AdvisorReport): Promise<AdvisorReport> => {
+      mockAdvisorReports.unshift(report);
+      if (mockAdvisorReports.length > 50) mockAdvisorReports.pop();
+      return report;
+    },
+    getAdvisorReportsFromDb: async (
+      workspaceId: string = 'default',
+      limit: number = 20
+    ): Promise<AdvisorReport[]> => {
+      return mockAdvisorReports.filter((r) => r.workspaceId === workspaceId).slice(0, limit);
+    },
+    getLatestAdvisorReportFromDb: async (
+      workspaceId: string = 'default'
+    ): Promise<AdvisorReport | null> => {
+      return mockAdvisorReports.find((r) => r.workspaceId === workspaceId) || null;
+    },
+  };
+
   before(async () => {
-    await initDatabase();
+    // Install isolated mocked database functions
+    setDatabaseMocks(mockDb);
 
     // Start temporary test server
     await new Promise<void>((resolve) => {
@@ -84,11 +163,17 @@ describe('Mastra Sales Growth Advisor Workflow Tests', () => {
   });
 
   after(async () => {
-    await clearSalesRecords('test_advisor_ws');
-    await clearSalesRecords('test_isolated_ws');
-    await closeDatabase();
-    if (server) {
-      await new Promise<void>((resolve) => server.close(() => resolve()));
+    try {
+      await clearSalesRecords('test_advisor_ws');
+      await clearSalesRecords('test_isolated_ws');
+      mockSalesStore.clear();
+      mockAdvisorReports.length = 0;
+      resetDatabaseMocks();
+      await closeDatabase();
+    } finally {
+      if (server) {
+        await new Promise<void>((resolve) => server.close(() => resolve()));
+      }
     }
   });
 

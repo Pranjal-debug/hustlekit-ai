@@ -17,6 +17,7 @@ import {
   RefreshCw,
   Trash2,
   Box,
+  PackageCheck,
 } from 'lucide-react';
 import type { SalesInsightsData, NavPage, ProductItem } from '../types';
 import { StatCard } from '../components/StatCard';
@@ -246,7 +247,7 @@ export const SalesInsightsPage: React.FC<SalesInsightsPageProps> = ({
 
           <button
             onClick={() => setShowUploadModal(true)}
-            className="px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold flex items-center gap-1.5 shadow-md shadow-purple-600/30 transition-all active:scale-95"
+            className="btn-shimmer px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-[#00E0B0] to-[#00C9F2] hover:opacity-95 text-[#03111F] text-xs font-bold flex items-center gap-1.5 shadow-md shadow-[#00E0B0]/20 transition-all active:scale-95"
           >
             <Upload className="w-3.5 h-3.5" />
             <span>Import Sales CSV</span>
@@ -292,13 +293,24 @@ export const SalesInsightsPage: React.FC<SalesInsightsPageProps> = ({
           subtext={isRealData ? 'Computed per transaction' : undefined}
           isDemo={!isRealData}
         />
-        <StatCard
-          title="Store Conversion Rate"
-          value={`${summary.conversionRate}%`}
-          change={isRealData ? undefined : summary.conversionChangePercentage}
-          icon={Percent}
-          isDemo={!isRealData}
-        />
+        {isRealData ? (
+          <StatCard
+            title="Units Sold"
+            value={summary.unitsSold || 0}
+            change={undefined}
+            icon={PackageCheck}
+            subtext="Total items fulfilled across orders"
+            isDemo={false}
+          />
+        ) : (
+          <StatCard
+            title="Store Conversion Rate"
+            value={`${summary.conversionRate}%`}
+            change={summary.conversionChangePercentage}
+            icon={Percent}
+            isDemo={true}
+          />
+        )}
       </div>
 
       {/* Chart Area & Sales Forecast */}
@@ -732,7 +744,7 @@ export const SalesInsightsPage: React.FC<SalesInsightsPageProps> = ({
                   type="button"
                   disabled={importing || !validationResult || validationResult.validRows.length === 0}
                   onClick={handleConfirmImport}
-                  className="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-white text-xs font-semibold flex items-center gap-1.5 shadow-md shadow-purple-600/30 transition-all"
+                  className="btn-shimmer px-4 py-2 rounded-xl bg-gradient-to-r from-[#00E0B0] to-[#00C9F2] hover:opacity-95 disabled:opacity-50 text-[#03111F] text-xs font-bold flex items-center gap-1.5 shadow-md shadow-[#00E0B0]/20 transition-all"
                 >
                   {importing ? (
                     <>

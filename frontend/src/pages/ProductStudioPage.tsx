@@ -462,18 +462,18 @@ export const ProductStudioPage: React.FC<ProductStudioPageProps> = ({
             onClick={handleGenerate}
             className={`w-full py-3 px-4 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 shadow-lg transition-all ${
               loading
-                ? 'bg-purple-700/50 text-purple-200 cursor-not-allowed'
-                : 'bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white shadow-purple-600/30 active:scale-98'
+                ? 'bg-[#061A2B] text-[#6F8BA3] border border-[#12364B] cursor-not-allowed'
+                : 'btn-shimmer bg-gradient-to-r from-[#00E0B0] to-[#00C9F2] hover:opacity-95 text-[#03111F] shadow-[#00E0B0]/20 active:scale-98 font-bold'
             }`}
           >
             {loading ? (
               <>
-                <RefreshCw className="w-4 h-4 animate-spin text-purple-300" />
+                <RefreshCw className="w-4 h-4 animate-spin text-[#00E0B0]" />
                 <span>Crafting AI Copy...</span>
               </>
             ) : (
               <>
-                <Sparkles className="w-4 h-4" />
+                <Sparkles className="w-4 h-4 fill-[#03111F]" />
                 <span>Generate Content</span>
               </>
             )}
@@ -512,12 +512,12 @@ export const ProductStudioPage: React.FC<ProductStudioPageProps> = ({
 
           {/* Dynamic state rendering */}
           {loading ? (
-            <div className="p-12 text-center rounded-2xl border border-dashed border-purple-500/30 bg-purple-950/10 space-y-4">
+            <div className="p-12 text-center rounded-2xl border border-dashed border-teal-500/30 bg-teal-950/10 space-y-4">
               <div className="relative mx-auto w-12 h-12">
-                <div className="w-12 h-12 rounded-full border-2 border-purple-500/20 border-t-purple-500 animate-spin" />
-                <Sparkles className="w-5 h-5 text-purple-400 absolute inset-0 m-auto animate-pulse" />
+                <div className="w-12 h-12 rounded-full border-2 border-teal-500/20 border-t-teal-400 animate-spin" />
+                <Sparkles className="w-5 h-5 text-teal-400 absolute inset-0 m-auto animate-pulse" />
               </div>
-              <h3 className="text-sm font-semibold text-purple-200">
+              <h3 className="text-sm font-semibold text-teal-200">
                 HustleKit Engine Synthesizing Content...
               </h3>
               <p className="text-xs text-slate-400 max-w-sm mx-auto">
@@ -537,7 +537,7 @@ export const ProductStudioPage: React.FC<ProductStudioPageProps> = ({
               className="py-16"
             />
           ) : (
-            <div className="space-y-4 animate-in fade-in duration-200">
+            <div className="space-y-4 animate-page-enter">
               {/* Output Header Details */}
               <div className="flex flex-wrap items-center justify-between gap-2 p-3 rounded-xl bg-slate-900/60 border border-slate-800">
                 <div>

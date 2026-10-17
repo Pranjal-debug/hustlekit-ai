@@ -1,4 +1,4 @@
-export type NavPage = 'dashboard' | 'studio' | 'insights' | 'settings';
+export type NavPage = 'dashboard' | 'studio' | 'insights' | 'advisor' | 'settings';
 
 export type ContentType = 
   | 'product_description'
@@ -31,6 +31,10 @@ export interface HealthResponse {
     type: 'mongodb' | 'memory';
     status: 'connected' | 'disconnected' | 'in_memory_fallback';
     dbName?: string;
+  };
+  mastra?: {
+    workflow: string;
+    ready: boolean;
   };
 }
 

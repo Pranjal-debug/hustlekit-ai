@@ -256,7 +256,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
           <button
             type="submit"
             disabled={saving}
-            className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-semibold text-xs sm:text-sm shadow-md shadow-purple-600/30 flex items-center gap-2 transition-all active:scale-95 disabled:opacity-50"
+            className="btn-shimmer px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#00E0B0] to-[#00C9F2] hover:opacity-95 text-[#03111F] font-bold text-xs sm:text-sm shadow-md shadow-[#00E0B0]/20 flex items-center gap-2 transition-all active:scale-95 disabled:opacity-50"
           >
             {saving ? (
               <>

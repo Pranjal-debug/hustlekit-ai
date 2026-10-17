@@ -280,20 +280,20 @@ export const MastraGrowthAdvisor: React.FC<MastraGrowthAdvisorProps> = ({
             </div>
           )}
 
-          {/* Main Action Button */}
+          {/* Main Action Button with shimmer interaction */}
           <button
             onClick={handleGeneratePlan}
             disabled={loading}
-            className="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold flex items-center gap-2 shadow-lg shadow-purple-600/30 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            className="btn-shimmer px-4 py-2 rounded-xl bg-gradient-to-r from-[#00E0B0] to-[#00C9F2] hover:opacity-95 text-[#03111F] text-xs font-bold flex items-center gap-2 shadow-lg shadow-[#00E0B0]/20 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
           >
             {loading ? (
               <>
-                <RefreshCw className="w-4 h-4 animate-spin text-purple-200" />
+                <RefreshCw className="w-4 h-4 animate-spin text-teal-300" />
                 <span>Orchestrating Workflow...</span>
               </>
             ) : (
               <>
-                <Sparkles className="w-4 h-4 text-purple-200" />
+                <Sparkles className="w-4 h-4 text-teal-300" />
                 <span>{report ? 'Re-run Growth Advisor' : 'Generate Growth Plan'}</span>
               </>
             )}
@@ -304,15 +304,15 @@ export const MastraGrowthAdvisor: React.FC<MastraGrowthAdvisorProps> = ({
       {/* Loading Progress State */}
       {loading && (
         <div className="py-10 text-center space-y-4">
-          <div className="inline-flex p-4 rounded-2xl bg-purple-500/10 border border-purple-500/30 text-purple-400 animate-pulse">
+          <div className="inline-flex p-4 rounded-2xl bg-teal-500/10 border border-teal-500/30 text-teal-400 animate-pulse">
             <Bot className="w-8 h-8" />
           </div>
           <div className="space-y-1">
             <h3 className="text-sm font-bold text-white">Mastra Sales Growth Advisor Running</h3>
-            <p className="text-xs text-purple-300 font-medium font-mono">{loadingStep}</p>
+            <p className="text-xs text-teal-300 font-medium font-mono">{loadingStep}</p>
           </div>
           <div className="max-w-md mx-auto w-full bg-slate-800/60 rounded-full h-1.5 overflow-hidden">
-            <div className="bg-gradient-to-r from-purple-500 to-indigo-500 h-full w-2/3 animate-[pulse_1.5s_ease-in-out_infinite]" />
+            <div className="bg-gradient-to-r from-purple-500 via-teal-400 to-emerald-400 h-full w-2/3 animate-[pulse_1.5s_ease-in-out_infinite]" />
           </div>
         </div>
       )}
@@ -404,11 +404,11 @@ export const MastraGrowthAdvisor: React.FC<MastraGrowthAdvisorProps> = ({
           )}
 
           {/* Recommendation Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-page-enter">
             {report.recommendations.map((rec, index) => (
               <div
                 key={rec.id || index}
-                className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-slate-700 transition-all flex flex-col justify-between space-y-4 group"
+                className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-emerald-500/40 hover:shadow-[0_8px_30px_rgba(13,155,120,0.12)] transition-all flex flex-col justify-between space-y-4 group"
               >
                 <div className="space-y-3">
                   {/* Category and Priority Row */}

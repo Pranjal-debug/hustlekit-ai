@@ -20,12 +20,24 @@ export default {
           900: '#4c1d95',
           950: '#2e1065',
         },
+        cinema: {
+          bg: '#03111F',
+          surface: '#061A2B',
+          card: '#092137',
+          border: '#12364B',
+          text: '#F1F7FC',
+          secondary: '#9BB4C9',
+          muted: '#6F8BA3',
+          emerald: '#00E0B0',
+          cyan: '#00C9F2',
+          violet: '#A855F7',
+        },
         surface: {
           50: '#f8fafc',
           100: '#f1f5f9',
-          800: '#1e293b',
-          900: '#0f172a',
-          950: '#090d16'
+          800: '#092137',
+          900: '#061A2B',
+          950: '#03111F'
         }
       },
       fontFamily: {

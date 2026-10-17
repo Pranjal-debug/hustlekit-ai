@@ -12,6 +12,11 @@ import { advisorRouter } from './routes/advisor.routes';
 
 dotenv.config();
 
+// Protect test environment from accidental production database access
+if (process.env.NODE_ENV === 'test') {
+  delete process.env.MONGODB_URI;
+}
+
 export const app = express();
 
 // Parse and configure allowed CORS origins

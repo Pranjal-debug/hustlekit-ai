@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { NavPage, HealthResponse, ProductItem, SalesInsightsData } from './types';
+import type { NavPage, HealthResponse, ProductItem, SalesInsightsData, StoreSettings } from './types';
 import { api } from './services/api';
 import { Sidebar } from './components/Sidebar';
 import { TopBar } from './components/TopBar';
@@ -9,6 +9,8 @@ import { DashboardPage } from './pages/DashboardPage';
 import { ProductStudioPage } from './pages/ProductStudioPage';
 import { SalesInsightsPage } from './pages/SalesInsightsPage';
 import { SettingsPage } from './pages/SettingsPage';
+import { MastraGrowthAdvisor } from './components/MastraGrowthAdvisor';
+import { AmbientBackground } from './components/AmbientBackground';
 
 export function App() {
   const [activePage, setActivePage] = useState<NavPage>('dashboard');
@@ -19,6 +21,7 @@ export function App() {
   const [healthLoading, setHealthLoading] = useState(false);
   const [products, setProducts] = useState<ProductItem[]>([]);
   const [insights, setInsights] = useState<SalesInsightsData | null>(null);
+  const [settings, setSettings] = useState<StoreSettings | null>(null);
   const [loadingInitial, setLoadingInitial] = useState(true);
 
   // Cross-page navigation state
@@ -57,14 +60,15 @@ export function App() {
     }
   }, []);
 
-  // Load products & insights from backend
+  // Load products, insights, settings & health from backend
   const loadAppData = useCallback(async () => {
     try {
       setLoadingInitial(true);
-      const [healthData, productsRes, insightsData] = await Promise.allSettled([
+      const [healthData, productsRes, insightsData, settingsData] = await Promise.allSettled([
         api.checkHealth(),
         api.getProducts(),
         api.getInsights(),
+        api.getSettings(),
       ]);
 
       if (healthData.status === 'fulfilled') {
@@ -75,6 +79,9 @@ export function App() {
       }
       if (insightsData.status === 'fulfilled') {
         setInsights(insightsData.value);
+      }
+      if (settingsData.status === 'fulfilled') {
+        setSettings(settingsData.value);
       }
     } catch (err) {
       console.warn('Initial data load warning:', err);
@@ -129,7 +136,10 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#090d16] text-slate-100 flex flex-col font-sans selection:bg-purple-500/30 selection:text-purple-200">
+    <div className="min-h-screen bg-[#03111F] text-[#F1F7FC] flex flex-col font-sans selection:bg-[#00E0B0]/30 selection:text-[#00E0B0] relative">
+      {/* Ambient living background with flowing cyan/emerald waves */}
+      <AmbientBackground />
+
       {/* Toast notifications */}
       <ToastContainer toasts={toasts} onDismiss={dismissToast} />
 
@@ -139,61 +149,97 @@ export function App() {
         onNavigate={(page) => setActivePage(page)}
         mobileOpen={mobileOpen}
         onCloseMobile={() => setMobileOpen(false)}
+        health={health}
       />
 
       {/* Main Content Area */}
-      <div className="lg:pl-64 flex-1 flex flex-col min-w-0">
+      <div className="lg:pl-64 flex-1 flex flex-col min-w-0 relative z-10">
         {/* Top Bar */}
         <TopBar
           activePage={activePage}
+          onNavigate={(page) => setActivePage(page)}
           onOpenMobile={() => setMobileOpen(true)}
           onQuickGenerate={() => setActivePage('studio')}
           health={health}
           healthLoading={healthLoading}
           onRefreshHealth={checkHealth}
+          sellerName={settings?.sellerName || 'Pranjal Gupta'}
+          products={products}
+          onSelectProduct={(prod) => handleSelectProductForStudio(prod)}
+          isDemoData={insights?.dataSource !== 'imported_sales'}
         />
 
-        {/* Page Routing */}
+        {/* Page Routing with smooth page-enter motion */}
         <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
-          {activePage === 'dashboard' && (
-            <DashboardPage
-              insights={insights}
-              products={products}
-              loading={loadingInitial}
-              onNavigate={(page) => setActivePage(page)}
-              onSelectProductForStudio={handleSelectProductForStudio}
-              onAddProduct={handleAddProduct}
-            />
-          )}
+          <div key={activePage} className="animate-page-enter">
+            {activePage === 'dashboard' && (
+              <DashboardPage
+                insights={insights}
+                products={products}
+                loading={loadingInitial}
+                onNavigate={(page) => setActivePage(page)}
+                onSelectProductForStudio={handleSelectProductForStudio}
+                onAddProduct={handleAddProduct}
+                settings={settings}
+              />
+            )}
 
-          {activePage === 'studio' && (
-            <ProductStudioPage
-              products={products}
-              prefilledProduct={prefilledProduct}
-              onClearPrefill={() => setPrefilledProduct(null)}
-              onShowToast={showToast}
-            />
-          )}
+            {activePage === 'studio' && (
+              <ProductStudioPage
+                products={products}
+                prefilledProduct={prefilledProduct}
+                onClearPrefill={() => setPrefilledProduct(null)}
+                onShowToast={showToast}
+              />
+            )}
 
-          {activePage === 'insights' && (
-            <SalesInsightsPage
-              insights={insights}
-              loading={loadingInitial}
-              onNavigate={(page) => setActivePage(page)}
-              onSelectProductForStudio={handleSelectProductForStudio}
-              onShowToast={showToast}
-              onRefreshInsights={loadAppData}
-            />
-          )}
+            {activePage === 'insights' && (
+              <SalesInsightsPage
+                insights={insights}
+                loading={loadingInitial}
+                onNavigate={(page) => setActivePage(page)}
+                onSelectProductForStudio={handleSelectProductForStudio}
+                onShowToast={showToast}
+                onRefreshInsights={loadAppData}
+              />
+            )}
 
-          {activePage === 'settings' && (
-            <SettingsPage
-              health={health}
-              onRefreshHealth={checkHealth}
-              onShowToast={showToast}
-              onResetDemoData={handleResetDemoData}
-            />
-          )}
+            {activePage === 'advisor' && (
+              <div className="space-y-6 pb-12">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-3 border-b border-[#12364B] gap-2">
+                  <div>
+                    <h1 className="text-xl sm:text-2xl font-bold text-[#F1F7FC] tracking-tight font-sans">
+                      Mastra Sales Growth Advisor
+                    </h1>
+                    <p className="text-xs text-[#9BB4C9] mt-0.5">
+                      Multi-step AI workflow orchestrating telemetry diagnostics, schema validation, and growth actions.
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[11px] px-2.5 py-1 rounded-full bg-[#00E0B0]/10 border border-[#00E0B0]/30 text-[#00E0B0] font-semibold">
+                      Mastra Workflow Orchestration
+                    </span>
+                  </div>
+                </div>
+
+                <MastraGrowthAdvisor
+                  isRealData={insights?.dataSource === 'imported_sales'}
+                  onNavigate={(page) => setActivePage(page)}
+                  onSelectProductForStudio={handleSelectProductForStudio}
+                  onShowToast={showToast}
+                />
+              </div>
+            )}
+
+            {activePage === 'settings' && (
+              <SettingsPage
+                health={health}
+                onRefreshHealth={checkHealth}
+                onShowToast={showToast}
+                onResetDemoData={handleResetDemoData}
+              />
+            )}
+          </div>
         </main>
       </div>
     </div>

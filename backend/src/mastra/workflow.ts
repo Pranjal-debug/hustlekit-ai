@@ -14,6 +14,7 @@ import {
   AdvisorAnalysisPeriod,
   AdvisorCategory,
   AdvisorPriority,
+  SalesRecord,
 } from '../types';
 
 // ==========================================
@@ -166,13 +167,14 @@ export const AdvisorReportSchema = z.object({
 
 export interface WorkflowOptions {
   customFetch?: typeof fetch;
+  loadSalesRecords?: (workspaceId: string) => Promise<SalesRecord[]>;
 }
 
 /**
  * Step A: Load business data from MongoDB repositories
  * Enforces workspace isolation and avoids using demo simulations as real data.
  */
-export const createLoadBusinessDataStep = () =>
+export const createLoadBusinessDataStep = (options?: WorkflowOptions) =>
   createStep({
     id: 'load-business-data',
     inputSchema: z.object({
@@ -181,7 +183,9 @@ export const createLoadBusinessDataStep = () =>
     outputSchema: StepAOutputSchema,
     execute: async ({ inputData }) => {
       const workspaceId = inputData.workspaceId || 'default';
-      const records = await getSalesRecords(workspaceId);
+      const records = options?.loadSalesRecords
+        ? await options.loadSalesRecords(workspaceId)
+        : await getSalesRecords(workspaceId);
 
       if (!records || records.length === 0) {
         return {
@@ -638,7 +642,7 @@ export const createValidateOutputStep = () =>
 // ==========================================
 
 export const createSalesGrowthAdvisorWorkflow = (options?: WorkflowOptions) => {
-  const stepA = createLoadBusinessDataStep();
+  const stepA = createLoadBusinessDataStep(options);
   const stepB = createBuildEvidenceStep();
   const stepC = createGenerateRecommendationsStep(options);
   const stepD = createValidateOutputStep();

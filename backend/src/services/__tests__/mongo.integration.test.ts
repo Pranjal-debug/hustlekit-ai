@@ -1,3 +1,4 @@
+process.env.NODE_ENV = 'test';
 import { describe, it, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import {
@@ -27,10 +28,17 @@ describe('MongoDB Atlas End-to-End Persistence Tests', () => {
   it('connects to real MongoDB Atlas or reports valid status', async () => {
     const status = await getDatabaseStatus();
     assert.ok(['connected', 'in_memory_fallback'].includes(status.status));
-    if (process.env.MONGODB_URI) {
+    if (status.status === 'connected') {
       assert.equal(status.type, 'mongodb');
-      assert.equal(status.status, 'connected');
-      assert.equal(status.dbName, 'hustlekit_ai');
+      assert.ok(
+        status.dbName && status.dbName.toLowerCase().includes('test'),
+        'Connected database must be an isolated test database'
+      );
+      assert.notEqual(
+        status.dbName,
+        'hustlekit_ai',
+        'Must never connect to production database during tests'
+      );
     }
   });
 

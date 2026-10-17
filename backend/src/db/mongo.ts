@@ -96,9 +96,65 @@ export interface DatabaseTelemetry {
   error?: string;
 }
 
+export interface DatabaseMocks {
+  getSalesRecords?: (workspaceId: string) => Promise<SalesRecord[]>;
+  insertSalesRecords?: (workspaceId: string, records: SalesRecordInput[]) => Promise<SalesImportSummary>;
+  clearSalesRecords?: (workspaceId: string) => Promise<number>;
+  getProductsFromDb?: (workspaceId: string) => Promise<ProductItem[]>;
+  saveProductToDb?: (workspaceId: string, product: ProductItem) => Promise<ProductItem>;
+  getGeneratedContentHistory?: (workspaceId: string) => Promise<ContentGenerationResponse[]>;
+  saveGeneratedContent?: (workspaceId: string, content: ContentGenerationResponse) => Promise<void>;
+  getStoreSettingsFromDb?: (workspaceId: string) => Promise<StoreSettings | null>;
+  saveStoreSettingsToDb?: (workspaceId: string, settings: StoreSettings) => Promise<void>;
+  saveAdvisorReportToDb?: (report: AdvisorReport) => Promise<AdvisorReport>;
+  getAdvisorReportsFromDb?: (workspaceId: string, limit?: number) => Promise<AdvisorReport[]>;
+  getLatestAdvisorReportFromDb?: (workspaceId: string) => Promise<AdvisorReport | null>;
+}
+
+let activeDatabaseMocks: DatabaseMocks | null = null;
+
+export const setDatabaseMocks = (mocks: DatabaseMocks | null): void => {
+  activeDatabaseMocks = mocks;
+};
+
+export const resetDatabaseMocks = (): void => {
+  activeDatabaseMocks = null;
+};
+
+export const getDatabaseMocks = (): DatabaseMocks | null => {
+  return activeDatabaseMocks;
+};
+
+export const getDatabaseConfig = () => {
+  const isTest = process.env.NODE_ENV === 'test';
+  const uri = isTest
+    ? (process.env.TEST_MONGODB_URI || process.env.MONGODB_TEST_URI)?.trim()
+    : process.env.MONGODB_URI?.trim();
+  const dbName = isTest
+    ? (process.env.TEST_MONGODB_DB_NAME || process.env.MONGODB_TEST_DB_NAME || 'hustlekit_ai_test').trim()
+    : (process.env.MONGODB_DB_NAME?.trim() || 'hustlekit_ai');
+  return { uri, dbName, isTest };
+};
+
+export const assertSafeTestDatabase = (dbName: string): void => {
+  if (process.env.NODE_ENV === 'test') {
+    const lower = (dbName || '').toLowerCase().trim();
+    const isProductionName =
+      lower === 'hustlekit_ai' ||
+      lower === 'production' ||
+      lower === 'prod' ||
+      lower === 'default';
+    const hasTestMarker = lower.includes('test');
+    if (isProductionName || !hasTestMarker) {
+      throw new Error(
+        `[Database Safeguard] Blocked operation against database '${dbName}' during test run. Tests requiring MongoDB must use a dedicated test database clearly isolated from production (name must contain 'test', e.g. 'hustlekit_ai_test').`
+      );
+    }
+  }
+};
+
 export const initDatabase = async (): Promise<DatabaseTelemetry> => {
-  const uri = process.env.MONGODB_URI?.trim();
-  const dbName = process.env.MONGODB_DB_NAME?.trim() || 'hustlekit_ai';
+  const { uri, dbName, isTest } = getDatabaseConfig();
 
   if (!uri) {
     lastConnectionError = null;
@@ -110,6 +166,10 @@ export const initDatabase = async (): Promise<DatabaseTelemetry> => {
       productsCount: memoryProducts.length,
       contentHistoryCount: memoryContentHistory.length,
     };
+  }
+
+  if (isTest) {
+    assertSafeTestDatabase(dbName);
   }
 
   try {
@@ -183,8 +243,7 @@ export const initDatabase = async (): Promise<DatabaseTelemetry> => {
 };
 
 export const getDatabaseStatus = async (): Promise<DatabaseTelemetry> => {
-  const uri = process.env.MONGODB_URI?.trim();
-  const dbName = process.env.MONGODB_DB_NAME?.trim() || 'hustlekit_ai';
+  const { uri, dbName } = getDatabaseConfig();
 
   if (!uri) {
     return {
@@ -251,7 +310,13 @@ export const closeDatabase = async (): Promise<void> => {
  * Prevents silent fallback to in-memory store when production database is unreachable.
  */
 export const assertDatabaseReady = (operation?: string): void => {
-  if (process.env.MONGODB_URI?.trim() && (!isConnected || !db)) {
+  if (activeDatabaseMocks) {
+    return;
+  }
+  const { uri } = getDatabaseConfig();
+  const effectiveUri = uri || (process.env.NODE_ENV === 'test' ? process.env.MONGODB_URI?.trim() : undefined);
+
+  if (effectiveUri && (!isConnected || !db)) {
     const opPrefix = operation ? ` Operation '${operation}' aborted.` : '';
     throw new Error(
       `MongoDB Atlas is configured but not connected (${
@@ -279,7 +344,13 @@ export const insertSalesRecords = async (
   workspaceId: string,
   records: SalesRecordInput[]
 ): Promise<SalesImportSummary> => {
-  assertDatabaseReady();
+  if (activeDatabaseMocks?.insertSalesRecords) {
+    return activeDatabaseMocks.insertSalesRecords(workspaceId, records);
+  }
+  assertDatabaseReady('insertSalesRecords');
+  if (process.env.NODE_ENV === 'test' && isConnected && db) {
+    assertSafeTestDatabase(db.databaseName);
+  }
   let insertedCount = 0;
   let skippedDuplicatesCount = 0;
   let totalImportedRevenue = 0;
@@ -363,7 +434,10 @@ export const insertSalesRecords = async (
  * Retrieve all imported sales records
  */
 export const getSalesRecords = async (workspaceId: string = 'default'): Promise<SalesRecord[]> => {
-  assertDatabaseReady();
+  if (activeDatabaseMocks?.getSalesRecords) {
+    return activeDatabaseMocks.getSalesRecords(workspaceId);
+  }
+  assertDatabaseReady('getSalesRecords');
   if (isConnected && db) {
     const raw = await db
       .collection<SalesRecord>('sales_records')
@@ -381,21 +455,34 @@ export const getSalesRecords = async (workspaceId: string = 'default'): Promise<
  * Clear imported sales records (allows resetting data)
  */
 export const clearSalesRecords = async (workspaceId: string = 'default'): Promise<number> => {
-  assertDatabaseReady();
+  if (activeDatabaseMocks?.clearSalesRecords) {
+    return activeDatabaseMocks.clearSalesRecords(workspaceId);
+  }
+  assertDatabaseReady('clearSalesRecords');
+  if (process.env.NODE_ENV === 'test' && isConnected && db) {
+    assertSafeTestDatabase(db.databaseName);
+  }
   if (isConnected && db) {
     const res = await db.collection('sales_records').deleteMany({ workspaceId });
     return res.deletedCount || 0;
   }
-  const prevCount = memorySales.length;
-  memorySales.length = 0;
-  return prevCount;
+  const initialCount = memorySales.length;
+  for (let i = memorySales.length - 1; i >= 0; i--) {
+    if (memorySales[i].workspaceId === workspaceId) {
+      memorySales.splice(i, 1);
+    }
+  }
+  return initialCount - memorySales.length;
 };
 
 /**
  * Products CRUD with Atlas persistence
  */
 export const getProductsFromDb = async (workspaceId: string = 'default'): Promise<ProductItem[]> => {
-  assertDatabaseReady();
+  if (activeDatabaseMocks?.getProductsFromDb) {
+    return activeDatabaseMocks.getProductsFromDb(workspaceId);
+  }
+  assertDatabaseReady('getProductsFromDb');
   if (isConnected && db) {
     const docs = await db
       .collection<ProductItem>('products')
@@ -404,20 +491,26 @@ export const getProductsFromDb = async (workspaceId: string = 'default'): Promis
       .toArray();
     return docs;
   }
-  return memoryProducts;
+  return memoryProducts.filter((p) => (p as any).workspaceId === workspaceId || (!('workspaceId' in p) && workspaceId === 'default'));
 };
 
 export const saveProductToDb = async (
   workspaceId: string = 'default',
   product: ProductItem
 ): Promise<ProductItem> => {
-  assertDatabaseReady();
+  if (activeDatabaseMocks?.saveProductToDb) {
+    return activeDatabaseMocks.saveProductToDb(workspaceId, product);
+  }
+  assertDatabaseReady('saveProductToDb');
+  if (process.env.NODE_ENV === 'test' && isConnected && db) {
+    assertSafeTestDatabase(db.databaseName);
+  }
   const record = { ...product, workspaceId };
   if (isConnected && db) {
     await db.collection('products').insertOne(record);
     return product;
   }
-  memoryProducts.unshift(product);
+  memoryProducts.unshift(record);
   return product;
 };
 
@@ -428,7 +521,13 @@ export const saveGeneratedContent = async (
   workspaceId: string,
   content: ContentGenerationResponse
 ): Promise<void> => {
-  assertDatabaseReady();
+  if (activeDatabaseMocks?.saveGeneratedContent) {
+    return activeDatabaseMocks.saveGeneratedContent(workspaceId, content);
+  }
+  assertDatabaseReady('saveGeneratedContent');
+  if (process.env.NODE_ENV === 'test' && isConnected && db) {
+    assertSafeTestDatabase(db.databaseName);
+  }
   const document = {
     ...content,
     workspaceId,
@@ -450,7 +549,10 @@ export const saveGeneratedContent = async (
 export const getGeneratedContentHistory = async (
   workspaceId: string = 'default'
 ): Promise<ContentGenerationResponse[]> => {
-  assertDatabaseReady();
+  if (activeDatabaseMocks?.getGeneratedContentHistory) {
+    return activeDatabaseMocks.getGeneratedContentHistory(workspaceId);
+  }
+  assertDatabaseReady('getGeneratedContentHistory');
   if (isConnected && db) {
     return (await db
       .collection('generated_content')
@@ -468,7 +570,10 @@ export const getGeneratedContentHistory = async (
 export const getStoreSettingsFromDb = async (
   workspaceId: string = 'default'
 ): Promise<StoreSettings | null> => {
-  assertDatabaseReady();
+  if (activeDatabaseMocks?.getStoreSettingsFromDb) {
+    return activeDatabaseMocks.getStoreSettingsFromDb(workspaceId);
+  }
+  assertDatabaseReady('getStoreSettingsFromDb');
   if (isConnected && db) {
     const doc = await db
       .collection('store_settings')
@@ -482,7 +587,13 @@ export const saveStoreSettingsToDb = async (
   workspaceId: string = 'default',
   settings: StoreSettings
 ): Promise<void> => {
-  assertDatabaseReady();
+  if (activeDatabaseMocks?.saveStoreSettingsToDb) {
+    return activeDatabaseMocks.saveStoreSettingsToDb(workspaceId, settings);
+  }
+  assertDatabaseReady('saveStoreSettingsToDb');
+  if (process.env.NODE_ENV === 'test' && isConnected && db) {
+    assertSafeTestDatabase(db.databaseName);
+  }
   if (isConnected && db) {
     await db
       .collection('store_settings')
@@ -496,7 +607,13 @@ export const saveStoreSettingsToDb = async (
  * Persist Sales Growth Advisor reports
  */
 export const saveAdvisorReportToDb = async (report: AdvisorReport): Promise<AdvisorReport> => {
-  assertDatabaseReady();
+  if (activeDatabaseMocks?.saveAdvisorReportToDb) {
+    return activeDatabaseMocks.saveAdvisorReportToDb(report);
+  }
+  assertDatabaseReady('saveAdvisorReportToDb');
+  if (process.env.NODE_ENV === 'test' && isConnected && db) {
+    assertSafeTestDatabase(db.databaseName);
+  }
   if (isConnected && db) {
     await db.collection('advisor_reports').insertOne({ ...report });
     return report;
@@ -513,7 +630,10 @@ export const getAdvisorReportsFromDb = async (
   workspaceId: string = 'default',
   limit: number = 20
 ): Promise<AdvisorReport[]> => {
-  assertDatabaseReady();
+  if (activeDatabaseMocks?.getAdvisorReportsFromDb) {
+    return activeDatabaseMocks.getAdvisorReportsFromDb(workspaceId, limit);
+  }
+  assertDatabaseReady('getAdvisorReportsFromDb');
   if (isConnected && db) {
     const docs = await db
       .collection<AdvisorReport>('advisor_reports')
@@ -534,7 +654,10 @@ export const getAdvisorReportsFromDb = async (
 export const getLatestAdvisorReportFromDb = async (
   workspaceId: string = 'default'
 ): Promise<AdvisorReport | null> => {
-  assertDatabaseReady();
+  if (activeDatabaseMocks?.getLatestAdvisorReportFromDb) {
+    return activeDatabaseMocks.getLatestAdvisorReportFromDb(workspaceId);
+  }
+  assertDatabaseReady('getLatestAdvisorReportFromDb');
   if (isConnected && db) {
     const doc = await db
       .collection<AdvisorReport>('advisor_reports')
