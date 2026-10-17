@@ -6,11 +6,12 @@ import {
   getLatestAdvisorReportFromDb,
 } from '../db/mongo';
 import { isGemmaConfigured } from '../services/gemma.service';
+import { aiRateLimiter } from '../middleware/rateLimiter';
 
 export const advisorRouter = Router();
 
 // POST /api/advisor/generate - Executes Mastra sales-growth-advisor workflow
-advisorRouter.post('/advisor/generate', async (req: Request, res: Response) => {
+advisorRouter.post('/advisor/generate', aiRateLimiter, async (req: Request, res: Response) => {
   const { workspaceId = 'default' } = req.body || {};
 
   if (!workspaceId || typeof workspaceId !== 'string') {

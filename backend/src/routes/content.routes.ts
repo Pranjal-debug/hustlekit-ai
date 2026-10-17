@@ -7,6 +7,7 @@ import {
   getGemmaConfig,
 } from '../services/gemma.service';
 import { saveGeneratedContent, getGeneratedContentHistory } from '../db/mongo';
+import { aiRateLimiter } from '../middleware/rateLimiter';
 
 export const contentRouter = Router();
 
@@ -88,7 +89,7 @@ export const generateDemoTemplateCopy = (
   }
 };
 
-contentRouter.post('/generate', async (req: Request, res: Response) => {
+contentRouter.post('/generate', aiRateLimiter, async (req: Request, res: Response) => {
   const body = req.body as ContentGenerationRequest;
 
   if (!body || !body.productTitle || !body.productTitle.trim()) {

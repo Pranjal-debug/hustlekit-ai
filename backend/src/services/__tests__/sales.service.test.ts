@@ -269,5 +269,52 @@ not-a-date,Bad Date Product,1,20.00
 
     // Insufficient sequential data (< 7 days) check
     assert.equal(insights.forecast.hasEnoughData, false, 'Must not claim high-confidence forecast on only 2 days of data');
+
+    // Fix F-04: Verify no hardcoded/fabricated comparative metrics when no prior period exists
+    assert.equal(insights.summary.revenueChangePercentage, undefined);
+    assert.equal(insights.summary.ordersChangePercentage, undefined);
+    assert.equal(insights.summary.aovChangePercentage, undefined);
+    assert.equal(insights.summary.conversionRate, undefined);
+    assert.equal(insights.summary.conversionChangePercentage, undefined);
+    for (const channel of insights.channels) {
+      assert.equal(channel.growth, undefined, 'Channel comparative growth must not be fabricated');
+    }
+  });
+
+  it('Fix F-04: imported records without prior comparison period produce no fabricated growth percentages', () => {
+    const singleRecord = [
+      {
+        id: 'rec_100',
+        workspaceId: 'workspace_test',
+        productName: 'Focus Lamp',
+        date: '2026-10-05',
+        quantity: 3,
+        unitPrice: 45,
+        revenue: 135,
+        channel: 'Direct Store',
+        recordHash: 'hash_single',
+        createdAt: '2026-10-05T00:00:00Z',
+      },
+    ];
+
+    const result = calculateRealInsights(singleRecord);
+
+    // Legitimate metrics calculated strictly from the actual record
+    assert.equal(result.summary.totalRevenue, 135);
+    assert.equal(result.summary.totalOrders, 1);
+    assert.equal(result.summary.averageOrderValue, 135);
+    assert.equal(result.summary.unitsSold, 3);
+    assert.equal(result.channels.length, 1);
+    assert.equal(result.channels[0].channel, 'Direct Store');
+    assert.equal(result.channels[0].revenue, 135);
+    assert.equal(result.channels[0].sharePercentage, 100);
+
+    // Ungrounded comparative percentages must be omitted
+    assert.equal(result.summary.revenueChangePercentage, undefined);
+    assert.equal(result.summary.ordersChangePercentage, undefined);
+    assert.equal(result.summary.aovChangePercentage, undefined);
+    assert.equal(result.summary.conversionRate, undefined);
+    assert.equal(result.summary.conversionChangePercentage, undefined);
+    assert.equal(result.channels[0].growth, undefined);
   });
 });

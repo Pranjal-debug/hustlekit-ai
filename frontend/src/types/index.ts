@@ -90,7 +90,7 @@ export interface SalesChannelMetric {
   channel: string;
   sharePercentage: number;
   revenue: number;
-  growth: number;
+  growth?: number;
 }
 
 export interface RecommendedAction {
@@ -114,13 +114,13 @@ export interface ProductPerformance {
 export interface SalesInsightsData {
   summary: {
     totalRevenue: number;
-    revenueChangePercentage: number;
+    revenueChangePercentage?: number;
     totalOrders: number;
-    ordersChangePercentage: number;
+    ordersChangePercentage?: number;
     averageOrderValue: number;
-    aovChangePercentage: number;
-    conversionRate: number;
-    conversionChangePercentage: number;
+    aovChangePercentage?: number;
+    conversionRate?: number;
+    conversionChangePercentage?: number;
     unitsSold?: number;
   };
   chartData: SalesChartDataPoint[];

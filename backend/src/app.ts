@@ -20,40 +20,39 @@ if (process.env.NODE_ENV === 'test') {
 export const app = express();
 
 // Parse and configure allowed CORS origins
-const configuredOrigins = (process.env.CLIENT_URL || '')
-  .split(',')
-  .map((s) => s.trim().replace(/\/+$/, ''))
-  .filter(Boolean);
+export const PRODUCTION_ORIGIN = 'https://hustlekit-ai.onrender.com';
 
-const defaultOrigins = [
-  'http://localhost:5173',
-  'http://127.0.0.1:5173',
-  'http://localhost:5000',
-  'http://127.0.0.1:5000',
-];
+export const isOriginAllowed = (origin: string): boolean => {
+  if (origin === PRODUCTION_ORIGIN) return true;
 
-export const allowedOrigins = Array.from(new Set([...configuredOrigins, ...defaultOrigins]));
+  const configured = (process.env.CLIENT_URL || '')
+    .split(',')
+    .map((s) => s.trim().replace(/\/+$/, ''))
+    .filter(Boolean);
+  if (configured.includes(origin)) return true;
+
+  if (process.env.NODE_ENV !== 'production') {
+    if (/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+// Trust exactly 1 reverse proxy hop (Render) to prevent IP header spoofing
+app.set('trust proxy', 1);
 
 app.use(
   cors({
     origin: (origin, callback) => {
       // Allow requests with no origin (e.g. mobile apps, curl, same-origin, server-to-server)
       if (!origin) return callback(null, true);
-      // Allow explicitly configured origins
-      if (allowedOrigins.includes(origin)) return callback(null, true);
-      // Allow Render preview and production domains (*.onrender.com)
-      try {
-        const hostname = new URL(origin).hostname;
-        if (hostname.endsWith('.onrender.com')) return callback(null, true);
-      } catch {
-        // invalid URL format, ignore
-      }
-      // In non-production, allow localhost on any port
-      if (process.env.NODE_ENV !== 'production' && /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
-        return callback(null, true);
-      }
+      // Validate against strict allowlist (production origin, CLIENT_URL, dev localhost)
+      if (isOriginAllowed(origin)) return callback(null, true);
 
-      callback(new Error(`Origin ${origin} not allowed by CORS`));
+      // Disallow unauthorized origins without setting Access-Control-Allow-Origin
+      callback(null, false);
     },
     credentials: true,
   })

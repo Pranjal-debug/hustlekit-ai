@@ -293,6 +293,7 @@ export const calculateRealInsights = (records: SalesRecord[]): SalesInsightsData
     channelMap.set(ch, (channelMap.get(ch) || 0) + r.revenue);
   }
 
+  // Channel breakdown (omit ungrounded comparative growth since no historical comparison period exists)
   const channels: SalesChannelMetric[] = Array.from(channelMap.entries()).map(
     ([channel, rev]) => {
       const share = totalRevenue > 0 ? (rev / totalRevenue) * 100 : 0;
@@ -300,7 +301,6 @@ export const calculateRealInsights = (records: SalesRecord[]): SalesInsightsData
         channel,
         sharePercentage: Math.round(share),
         revenue: Math.round(rev * 100) / 100,
-        growth: 12.5,
       };
     }
   );
@@ -353,13 +353,8 @@ export const calculateRealInsights = (records: SalesRecord[]): SalesInsightsData
   return {
     summary: {
       totalRevenue: Math.round(totalRevenue * 100) / 100,
-      revenueChangePercentage: 15.2,
       totalOrders,
-      ordersChangePercentage: 8.4,
       averageOrderValue: Math.round(averageOrderValue * 100) / 100,
-      aovChangePercentage: 4.1,
-      conversionRate: 3.8,
-      conversionChangePercentage: 0.5,
       unitsSold: totalUnits,
     },
     chartData,

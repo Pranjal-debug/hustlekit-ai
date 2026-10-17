@@ -96,9 +96,15 @@ const realisticDemoInsights: SalesInsightsData = {
 };
 
 // GET /api/insights
-insightsRouter.get('/insights', async (_req: Request, res: Response) => {
+insightsRouter.get('/insights', async (req: Request, res: Response) => {
   try {
-    const records = await getSalesRecords('default');
+    const rawWorkspaceId = req.query.workspaceId;
+    const workspaceId =
+      typeof rawWorkspaceId === 'string' && rawWorkspaceId.trim() !== ''
+        ? rawWorkspaceId.trim()
+        : 'default';
+
+    const records = await getSalesRecords(workspaceId);
     if (records.length > 0) {
       const realInsights = calculateRealInsights(records);
       res.status(200).json(realInsights);
